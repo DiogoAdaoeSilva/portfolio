@@ -1,0 +1,43 @@
+---
+title: "Project Title"
+tagline: "One-sentence description of what this project is and why it matters."
+category: "Category / Type"
+year: 2025
+coverImage: "folder/image-public-id"
+# coverVideo: "folder/video-public-id"
+techStack:
+  - name: "Architecture"
+    detail: "Framework or platform"
+    icon: "layers"
+  - name: "Styling"
+    detail: "Design system or CSS approach"
+    icon: "palette"
+  - name: "Data Layer"
+    detail: "Database or API"
+    icon: "database"
+  - name: "Motion"
+    detail: "Animation library"
+    icon: "auto_awesome"
+keyTakeaways:
+  - title: "Takeaway One"
+    body: "What was learned or achieved with this aspect of the project."
+  - title: "Takeaway Two"
+    body: "Second insight or result worth highlighting."
+  - title: "Takeaway Three"
+    body: "Third finding that shaped the final outcome."
+  - title: "Takeaway Four"
+    body: "Final reflection on process, constraints, or design decisions."
+# quote: "An optional pull quote that captures the project's philosophy."
+# githubUrl: "https://github.com/you/repo"
+# liveUrl: "https://project.example.com"
+featured: false
+order: 99
+---
+
+## The What
+
+Describe the project in plain terms. What does it do? Who is it for? What problem does it solve?
+
+## The Why
+
+What motivated this work? What constraints, opportunities, or questions drove the design decisions?

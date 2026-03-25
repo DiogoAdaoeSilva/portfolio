@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface": "#f9f9f7",
+              "on-error-container": "#752121",
+              "primary-container": "#dde3eb",
+              "surface-container-highest": "#dee4e0",
+              "on-secondary-fixed": "#384048",
+              "surface-variant": "#dee4e0",
+              "error-container": "#fe8983",
+              "tertiary-container": "#f1f4f9",
+              "on-surface-variant": "#5a605e",
+              "inverse-on-surface": "#9c9d9b",
+              "primary-fixed": "#dde3eb",
+              "surface-container": "#ecefec",
+              "on-secondary-fixed-variant": "#545c64",
+              "on-primary-fixed": "#3a4046",
+              "on-secondary-container": "#4b535a",
+              "inverse-surface": "#0d0f0e",
+              "on-error": "#fff7f6",
+              "secondary-fixed": "#dbe3ed",
+              "background": "#f9f9f7",
+              "on-tertiary-fixed": "#464a4e",
+              "on-primary": "#f4f8ff",
+              "surface-dim": "#d4dcd8",
+              "error": "#9f403d",
+              "on-primary-container": "#4c5259",
+              "secondary-dim": "#4c545c",
+              "on-tertiary": "#f7f9fe",
+              "outline": "#767c79",
+              "inverse-primary": "#f1f7ff",
+              "surface-bright": "#f9f9f7",
+              "on-background": "#2d3432",
+              "tertiary-fixed": "#f1f4f9",
+              "error-dim": "#4e0309",
+              "primary-fixed-dim": "#cfd5dd",
+              "secondary-container": "#dbe3ed",
+              "primary": "#595f66",
+              "surface-tint": "#595f66",
+              "on-tertiary-fixed-variant": "#63666b",
+              "secondary": "#586068",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed-dim": "#cdd5de",
+              "tertiary-fixed-dim": "#e3e5eb",
+              "outline-variant": "#adb3b0",
+              "primary-dim": "#4d5359",
+              "on-primary-fixed-variant": "#565c63",
+              "on-secondary": "#f6f9ff",
+              "on-surface": "#2d3432",
+              "on-tertiary-container": "#595c61",
+              "tertiary-dim": "#505358",
+              "surface-container-low": "#f2f4f2",
+              "tertiary": "#5c5f64",
+              "surface-container-high": "#e5e9e6"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9f7; color: #2d3432; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+        .monolith-gradient { background: linear-gradient(135deg, #595f66 0%, #4d5359 100%); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-8 py-6 max-w-none bg-[#f9f9f7] dark:bg-slate-950 tonal-shift-surface-container-low">
+<div class="text-xl font-bold tracking-tighter text-[#2d3432] dark:text-slate-100 uppercase">
+            VIBE
+        </div>
+<div class="hidden md:flex gap-12 items-center">
+<a class="font-['Inter'] font-medium tracking-tight text-sm text-[#5a605e] hover:text-[#2d3432] transition-colors" href="#">Home</a>
+<a class="font-['Inter'] font-medium tracking-tight text-sm text-[#2d3432] border-b-2 border-[#595f66] pb-1" href="#">Work</a>
+<a class="font-['Inter'] font-medium tracking-tight text-sm text-[#5a605e] hover:text-[#2d3432] transition-colors" href="#">About</a>
+</div>
+<div class="flex items-center gap-6">
+<a class="flex items-center gap-2 group" href="#">
+<span class="material-symbols-outlined text-primary group-hover:text-on-surface transition-colors" data-icon="terminal">terminal</span>
+<span class="font-['Inter'] font-medium tracking-tight text-sm text-[#595f66] group-hover:text-[#2d3432]">GitHub</span>
+</a>
+<button class="material-symbols-outlined text-[#595f66] hover:bg-[#f2f4f2] p-2 transition-all duration-300 scale-98 active:opacity-80" data-icon="menu">menu</button>
+</div>
+</nav>
+<main class="pt-32 pb-24 px-8 max-w-7xl mx-auto">
+<!-- Hero Section: Editorial Masthead Style -->
+<header class="mb-24">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+<div class="md:col-span-8">
+<p class="font-label text-xs uppercase tracking-[0.3em] text-on-surface-variant mb-4">Case Study 01</p>
+<h1 class="text-[clamp(3.5rem,10vw,5.5rem)] font-bold leading-[0.9] tracking-tighter text-on-surface uppercase">
+                        Tectonic<br/>Architecture
+                    </h1>
+</div>
+<div class="md:col-span-4 pb-4">
+<div class="h-[2px] w-16 bg-primary mb-6"></div>
+<p class="body-lg text-on-surface-variant leading-relaxed">
+                        A digital environment exploring the intersection of brutalist geometry and fluid user interaction.
+                    </p>
+</div>
+</div>
+</header>
+<!-- Large Video/Image Placeholder -->
+<section class="mb-32">
+<div class="aspect-video w-full bg-surface-container relative group overflow-hidden">
+<img class="w-full h-full object-cover grayscale brightness-90 contrast-110" data-alt="monolithic minimalist concrete building architecture with sharp shadows and clear blue sky editorial style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJiWDKkmsqVGjlylIjJZ8bYSm2iGF2iGSvsJpRpuP5-Y2DcSWUwsnkytif2p_w_WLzAiBd2TbWoyUPkdfBistkNFqTYhK3C9pXrGyInc5nao7S_V2UggGjDtc3qXUbYkTJc5sfDjMN7zla1tf0In91paC8_AQxtXpp1PP9rAYMY1TlO1RncwSZqnL3BswmtViXIn0bF_J15ohbGx-lUg0cshY8CrLAdsWB5KagblJeh5SYpyCPmVn4MEXIFMrP5CnwEc5RLnJsMVXJ"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="w-24 h-24 bg-surface-container-lowest/80 backdrop-blur-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-on-surface text-4xl" data-icon="play_arrow" data-weight="fill" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+<div class="absolute bottom-8 left-8">
+<p class="font-label text-[10px] uppercase tracking-widest text-white/70">Production Build v4.2 // Stable</p>
+</div>
+</div>
+</section>
+<!-- Content Grid: The What & The Why -->
+<section class="mb-32">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-y-16 md:gap-x-16">
+<!-- The What -->
+<div class="md:col-span-5">
+<h2 class="text-2xl font-bold tracking-tight mb-8 flex items-center gap-3">
+<span class="w-8 h-[1px] bg-primary"></span>
+                        The What
+                    </h2>
+<div class="pl-11">
+<p class="body-lg text-on-surface-variant mb-6 leading-relaxed">
+                            This project serves as a definitive exploration of modern web structuralism. By removing the traditional "card and border" paradigm, we focus entirely on the spatial relationship between typography and void.
+                        </p>
+<p class="body-lg text-on-surface-variant leading-relaxed">
+                            The interface utilizes a tiered surface system—moving from high-key white foundations to deep slate utility areas, creating a psychological sense of depth without the use of artificial drop shadows.
+                        </p>
+</div>
+</div>
+<!-- The Why -->
+<div class="md:col-start-7 md:col-span-6 bg-surface-container-low p-12">
+<h2 class="text-2xl font-bold tracking-tight mb-8 flex items-center gap-3">
+<span class="w-8 h-[1px] bg-primary"></span>
+                        The Why
+                    </h2>
+<div class="pl-11">
+<blockquote class="text-3xl font-medium tracking-tight text-on-surface mb-8 italic">
+                            "Structure is not the enclosure, but the catalyst for meaningful movement."
+                        </blockquote>
+<p class="body-lg text-on-surface-variant leading-relaxed">
+                            The objective was to create a "Quiet Interface"—a workspace that demands zero cognitive overhead. By leveraging architectural principles, the content is anchored by mass, allowing the user's focus to remain undisturbed.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Tech Stack: Bento-ish Layout -->
+<section class="mb-32">
+<h2 class="text-xs uppercase tracking-[0.4em] text-on-surface-variant mb-12 text-center">Engineered Foundation</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-1">
+<div class="bg-surface-container p-8 h-48 flex flex-col justify-between">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="layers">layers</span>
+<div>
+<p class="font-bold text-sm uppercase tracking-wider mb-1">Architecture</p>
+<p class="text-xs text-on-surface-variant">Next.js 14 App Router</p>
+</div>
+</div>
+<div class="bg-surface-container-high p-8 h-48 flex flex-col justify-between">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="palette">palette</span>
+<div>
+<p class="font-bold text-sm uppercase tracking-wider mb-1">Styling</p>
+<p class="text-xs text-on-surface-variant">Tailwind CSS v3.4</p>
+</div>
+</div>
+<div class="bg-surface-dim p-8 h-48 flex flex-col justify-between">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="database">database</span>
+<div>
+<p class="font-bold text-sm uppercase tracking-wider mb-1">Data Layer</p>
+<p class="text-xs text-on-surface-variant">Supabase &amp; PostgreSQL</p>
+</div>
+</div>
+<div class="bg-primary p-8 h-48 flex flex-col justify-between">
+<span class="material-symbols-outlined text-surface-container-lowest text-3xl" data-icon="auto_awesome">auto_awesome</span>
+<div>
+<p class="font-bold text-sm uppercase tracking-wider mb-1 text-surface-container-lowest">Motion</p>
+<p class="text-xs text-surface-container-lowest/70">Framer Motion Core</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Key Takeaways: Asymmetric Columns -->
+<section class="mb-32">
+<div class="flex flex-col md:flex-row gap-20">
+<div class="md:w-1/3">
+<h2 class="text-5xl font-bold tracking-tighter uppercase leading-none text-on-surface">
+                        Key<br/>Takeaways
+                    </h2>
+</div>
+<div class="md:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-12">
+<div class="space-y-4">
+<span class="text-4xl font-light text-outline-variant">01</span>
+<h3 class="font-bold text-lg uppercase tracking-wide">Spatial Literacy</h3>
+<p class="body-md text-on-surface-variant leading-relaxed">
+                            Users navigate more intuitively when depth is defined by tonal variation rather than heavy borders or distinct containers.
+                        </p>
+</div>
+<div class="space-y-4">
+<span class="text-4xl font-light text-outline-variant">02</span>
+<h3 class="font-bold text-lg uppercase tracking-wide">Type as Mass</h3>
+<p class="body-md text-on-surface-variant leading-relaxed">
+                            Large-scale display typography acts as a structural anchor, replacing the need for decorative dividers.
+                        </p>
+</div>
+<div class="space-y-4">
+<span class="text-4xl font-light text-outline-variant">03</span>
+<h3 class="font-bold text-lg uppercase tracking-wide">Material Honesty</h3>
+<p class="body-md text-on-surface-variant leading-relaxed">
+                            Using the full gamut of surface tones from the design system provides a tactile feel that connects with users emotionally.
+                        </p>
+</div>
+<div class="space-y-4">
+<span class="text-4xl font-light text-outline-variant">04</span>
+<h3 class="font-bold text-lg uppercase tracking-wide">Intentional Void</h3>
+<p class="body-md text-on-surface-variant leading-relaxed">
+                            Generous whitespace is not "empty"—it is a premium design choice that creates luxury and focus.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA / Footer Link -->
+<section class="border-t border-outline-variant/15 pt-20 text-center">
+<p class="font-label text-sm uppercase tracking-[0.2em] text-on-surface-variant mb-8">View the source on GitHub</p>
+<a class="inline-block monolith-gradient text-on-primary px-12 py-5 font-bold uppercase tracking-widest text-sm hover:brightness-110 transition-all active:scale-95" href="#">
+                Explore Repository
+            </a>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-4 bg-[#d4dcd8] dark:bg-slate-900 tonal-shift-from-surface-to-dim">
+<p class="font-['Inter'] text-xs uppercase tracking-widest text-[#595f66] dark:text-slate-400 opacity-90">
+            © 2024 Architectural Portfolio
+        </p>
+<div class="flex gap-8">
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-[#5a605e] hover:text-[#2d3432] underline decoration-1 underline-offset-4 transition-opacity opacity-90 hover:opacity-100" href="#">GitHub</a>
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-[#5a605e] hover:text-[#2d3432] underline decoration-1 underline-offset-4 transition-opacity opacity-90 hover:opacity-100" href="#">LinkedIn</a>
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-[#5a605e] hover:text-[#2d3432] underline decoration-1 underline-offset-4 transition-opacity opacity-90 hover:opacity-100" href="#">Layers</a>
+</div>
+</footer>
+</body></html>

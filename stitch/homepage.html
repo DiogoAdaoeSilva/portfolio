@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VIBE | Architectural Minimalism</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface": "#f9f9f7",
+              "on-error-container": "#752121",
+              "primary-container": "#dde3eb",
+              "surface-container-highest": "#dee4e0",
+              "on-secondary-fixed": "#384048",
+              "surface-variant": "#dee4e0",
+              "error-container": "#fe8983",
+              "tertiary-container": "#f1f4f9",
+              "on-surface-variant": "#5a605e",
+              "inverse-on-surface": "#9c9d9b",
+              "primary-fixed": "#dde3eb",
+              "surface-container": "#ecefec",
+              "on-secondary-fixed-variant": "#545c64",
+              "on-primary-fixed": "#3a4046",
+              "on-secondary-container": "#4b535a",
+              "inverse-surface": "#0d0f0e",
+              "on-error": "#fff7f6",
+              "secondary-fixed": "#dbe3ed",
+              "background": "#f9f9f7",
+              "on-tertiary-fixed": "#464a4e",
+              "on-primary": "#f4f8ff",
+              "surface-dim": "#d4dcd8",
+              "error": "#9f403d",
+              "on-primary-container": "#4c5259",
+              "secondary-dim": "#4c545c",
+              "on-tertiary": "#f7f9fe",
+              "outline": "#767c79",
+              "inverse-primary": "#f1f7ff",
+              "surface-bright": "#f9f9f7",
+              "on-background": "#2d3432",
+              "tertiary-fixed": "#f1f4f9",
+              "error-dim": "#4e0309",
+              "primary-fixed-dim": "#cfd5dd",
+              "secondary-container": "#dbe3ed",
+              "primary": "#595f66",
+              "surface-tint": "#595f66",
+              "on-tertiary-fixed-variant": "#63666b",
+              "secondary": "#586068",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed-dim": "#cdd5de",
+              "tertiary-fixed-dim": "#e3e5eb",
+              "outline-variant": "#adb3b0",
+              "primary-dim": "#4d5359",
+              "on-primary-fixed-variant": "#565c63",
+              "on-secondary": "#f6f9ff",
+              "on-surface": "#2d3432",
+              "on-tertiary-container": "#595c61",
+              "tertiary-dim": "#505358",
+              "surface-container-low": "#f2f4f2",
+              "tertiary": "#5c5f64",
+              "surface-container-high": "#e5e9e6"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #f9f9f7;
+            color: #2d3432;
+            font-family: 'Inter', sans-serif;
+        }
+        .monolith-gradient {
+            background: linear-gradient(135deg, #595f66 0%, #4d5359 100%);
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar Component -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-8 py-6 max-w-none bg-[#f9f9f7] dark:bg-slate-950">
+<div class="text-xl font-bold tracking-tighter text-[#2d3432] dark:text-slate-100 uppercase">VIBE</div>
+<div class="hidden md:flex items-center gap-12">
+<a class="font-['Inter'] font-medium tracking-tight text-sm text-[#2d3432] border-b-2 border-[#595f66] pb-1" href="#">Home</a>
+<a class="font-['Inter'] font-medium tracking-tight text-sm text-[#5a605e] hover:text-[#2d3432] transition-colors" href="#">Work</a>
+<a class="font-['Inter'] font-medium tracking-tight text-sm text-[#5a605e] hover:text-[#2d3432] transition-colors" href="#">About</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-[#f2f4f2] dark:hover:bg-slate-900 transition-all duration-300 scale-98 active:opacity-80">
+<span class="material-symbols-outlined text-[#595f66] dark:text-slate-300" data-icon="menu">menu</span>
+</button>
+</div>
+</nav>
+<main class="pt-32 pb-24">
+<!-- Hero Section: The Monolith & The Void -->
+<section class="px-8 md:px-24 mb-32">
+<div class="max-w-7xl mx-auto">
+<h1 class="text-[clamp(3.5rem,10vw,7rem)] font-bold tracking-tighter leading-[0.9] text-on-surface mb-12">
+                    Tectonic <br/>
+<span class="text-outline-variant opacity-40">Simplicity.</span>
+</h1>
+<div class="flex flex-col md:flex-row gap-16 items-start">
+<div class="w-full md:w-1/3">
+<div class="h-[1px] w-24 bg-primary mb-8"></div>
+<p class="text-label-md uppercase tracking-widest text-on-surface-variant font-bold mb-4">Philosophy</p>
+<p class="text-body-lg text-on-surface-variant leading-relaxed">
+                            We view the interface as a physical architectural space. The "Monolith" represents our weighted, authoritative elements—permanent and grounded.
+                        </p>
+</div>
+<div class="flex-1 md:ml-auto md:max-w-xl">
+<p class="text-headline-lg font-medium leading-tight text-on-surface">
+                            Design is not merely empty space, but a deliberate "gallery" environment that gives digital content room to breathe and command authority.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Project Filter Bar -->
+<section class="px-8 md:px-24 mb-16">
+<div class="max-w-7xl mx-auto flex flex-wrap items-center gap-8 border-b border-outline-variant border-opacity-10 pb-6">
+<span class="text-label-sm font-bold uppercase tracking-widest text-on-surface">Filter By:</span>
+<button class="text-label-md font-bold text-on-surface border-b border-primary pb-1">All Systems</button>
+<button class="text-label-md text-on-surface-variant hover:text-on-surface transition-colors">OS Design</button>
+<button class="text-label-md text-on-surface-variant hover:text-on-surface transition-colors">Neural Nets</button>
+<button class="text-label-md text-on-surface-variant hover:text-on-surface transition-colors">CRM Systems</button>
+</div>
+</section>
+<!-- Project Gallery: Asymmetric Bento Grid -->
+<section class="px-8 md:px-24">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Project 1: Neural_Dreamscape (Large Feature) -->
+<div class="md:col-span-8 group cursor-pointer">
+<div class="relative overflow-hidden aspect-[16/10] bg-surface-container-low">
+<img alt="Neural_Dreamscape" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" data-alt="abstract flowing 3D crystalline structures in muted slate and charcoal tones with sharp architectural edges and soft atmospheric lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZmsQ9HY6qr3DVEuH451u3lcy1h_VAtqPQXLQtYkG_Al6F1vLGS9t6NHIGdTJDxlNB9B8-iu24tCuUhHv8XUSYlS8db2RZQKwKuoHVil1hmd7Fr81pIdSbwl25NScGxY00UrLH5pRK8v9N28A1tgmVMN293bY7GKRYW14Ii-DwGOkKgGWpzEiAGbiiVMUWzdt0aL1sQ_IJ_tzXw1a-9JLBHq5Kcmko-zqelwWPnZ8bNq_YB3BdzZFEHO46G7vfbkjffFTeIxa92kaq"/>
+<div class="absolute inset-0 bg-on-surface opacity-0 group-hover:opacity-10 transition-opacity"></div>
+</div>
+<div class="mt-8 flex justify-between items-start">
+<div>
+<h3 class="text-headline-lg font-bold tracking-tight">Neural_Dreamscape</h3>
+<p class="text-on-surface-variant mt-2 font-medium">Generative Core / 2024</p>
+</div>
+<span class="material-symbols-outlined text-3xl group-hover:translate-x-2 transition-transform" data-icon="north_east">north_east</span>
+</div>
+</div>
+<!-- Project 2: Void_OS (Vertical) -->
+<div class="md:col-span-4 group cursor-pointer mt-12 md:mt-0">
+<div class="relative overflow-hidden aspect-[4/5] bg-surface-dim">
+<img alt="Void_OS" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" data-alt="ultra minimalist computer interface on a sleek tablet with deep shadows and high contrast monochrome typography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTlvCysCljY1Z2YhX_ZPvaeYVWBjNbNYSTRGjiX-zMqlT08N-zerTwpZbl6YiPifzbkd0SljXZmb1fbMNu9zgY6UMPwpZd5YtfsWwO_BR-JsrNhTnEHnuK0Jm7VEBaOw8icqEi3Hjc05xrlGk0x5N67UupYPiL-2XTbX_eXlg7on9Mb8xAOfEcglNoHaZ6Oj1LJ4yCHKqNbZW6qAzqBUcyHdWyosDXKkcOj1exP-j2XVvjwdXqDKhCuLlj5BLX1Yb1n-Zqu_I46ErM"/>
+<div class="absolute inset-0 bg-on-surface opacity-0 group-hover:opacity-10 transition-opacity"></div>
+</div>
+<div class="mt-8">
+<h3 class="text-headline-sm font-bold tracking-tight">Void_OS</h3>
+<p class="text-on-surface-variant mt-2 font-medium">Operating Environment</p>
+</div>
+</div>
+<!-- Spacer for Asymmetry -->
+<div class="hidden md:block md:col-span-1"></div>
+<!-- Project 3: Lumina_CRM (Horizontal) -->
+<div class="md:col-span-7 group cursor-pointer mt-12 md:mt-24">
+<div class="relative overflow-hidden aspect-[16/9] bg-surface-container">
+<img alt="Lumina_CRM" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" data-alt="minimalist architectural office interior with large windows and geometric concrete pillars in soft grey morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDW42K1wTp5oQ76VY8F4Sf1A5wCM6OVqGmAKTiAQRxgG4A6xHLhwEQRH8N6Oh-8ZW7F9VFNzhoWIiCTkTmXkXnqSWJ_QvZpILnc1g6dZH3Yp17krsDJR6RlH92gg-cm5_58gpQkdu_m4Ny3JnxHoiqwYMbNpwNI2C4m1Ecx4kjGdWuDlu92rakef47gG9EV5vkb6C2h5GwyqK7uNgbP2fECOHXyAKPhcYV0umP9sk7x7xq5yV6-_e2V_BGYRxqq-pGAkbKmi0rhQ3GM"/>
+<div class="absolute inset-0 bg-on-surface opacity-0 group-hover:opacity-10 transition-opacity"></div>
+</div>
+<div class="mt-8">
+<h3 class="text-headline-sm font-bold tracking-tight">Lumina_CRM</h3>
+<p class="text-on-surface-variant mt-2 font-medium">Enterprise Logic Architecture</p>
+</div>
+</div>
+<!-- Text Callout -->
+<div class="md:col-span-4 flex items-end justify-start md:pb-12 mt-12 md:mt-0">
+<div class="max-w-xs">
+<span class="material-symbols-outlined text-primary text-4xl mb-6" data-icon="architecture">architecture</span>
+<p class="text-body-md text-on-surface-variant leading-relaxed">
+                            Each project is a study in structural integrity. We strip away the unnecessary until only the essential logic remains.
+                        </p>
+<button class="mt-8 text-on-surface font-bold text-sm tracking-widest uppercase border-b-2 border-primary pb-1 hover:opacity-70 transition-opacity">View Full Archive</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter Section: Tonal Transition -->
+<section class="mt-32 px-8">
+<div class="max-w-7xl mx-auto bg-surface-container-low p-12 md:p-24 flex flex-col md:flex-row gap-16 items-center">
+<div class="flex-1">
+<h2 class="text-headline-lg font-bold tracking-tight mb-4">The Monolith Monthly.</h2>
+<p class="text-on-surface-variant text-body-lg">Architectural insights and design updates delivered with quiet authority.</p>
+</div>
+<div class="w-full md:w-auto flex flex-col sm:flex-row gap-4">
+<input class="bg-surface-container-low border-b-2 border-outline-variant px-6 py-4 focus:outline-none focus:border-primary transition-colors text-on-surface font-medium min-w-[300px]" placeholder="ENTER_EMAIL" type="email"/>
+<button class="monolith-gradient text-on-primary px-12 py-4 font-bold uppercase tracking-widest text-sm active:opacity-80 transition-opacity">Subscribe</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Component -->
+<footer class="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-4 bg-[#d4dcd8] dark:bg-slate-900">
+<div class="font-['Inter'] text-xs uppercase tracking-widest text-[#595f66] dark:text-slate-400">
+            © 2024 Architectural Portfolio
+        </div>
+<div class="flex gap-12">
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-[#5a605e] hover:text-[#2d3432] underline decoration-1 underline-offset-4 opacity-90 hover:opacity-100 transition-opacity" href="#">GitHub</a>
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-[#5a605e] hover:text-[#2d3432] underline decoration-1 underline-offset-4 opacity-90 hover:opacity-100 transition-opacity" href="#">LinkedIn</a>
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-[#5a605e] hover:text-[#2d3432] underline decoration-1 underline-offset-4 opacity-90 hover:opacity-100 transition-opacity" href="#">Layers</a>
+</div>
+<div class="hidden md:block">
+<span class="material-symbols-outlined text-[#595f66]" data-icon="adjust">adjust</span>
+</div>
+</footer>
+</body></html>

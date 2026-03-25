@@ -1,0 +1,90 @@
+---
+/**
+ * CloudinaryVideo
+ * Renders a video from Cloudinary with a poster image overlay.
+ *
+ * Required env var: PUBLIC_CLOUDINARY_CLOUD_NAME
+ *
+ * Usage:
+ *   <CloudinaryVideo publicId="folder/my-video" />
+ *   <CloudinaryVideo publicId="folder/my-video" autoplay loop muted />
+ */
+
+interface Props {
+  publicId: string;
+  class?: string;
+  autoplay?: boolean;
+  loop?: boolean;
+  muted?: boolean;
+  /** Show a play-button overlay instead of native controls (good for hero sections) */
+  posterMode?: boolean;
+}
+
+const {
+  publicId,
+  class: className,
+  autoplay = false,
+  loop = false,
+  muted = true,
+  posterMode = false,
+} = Astro.props;
+
+const cloudName = import.meta.env.PUBLIC_CLOUDINARY_CLOUD_NAME;
+
+function videoUrl(format: 'mp4' | 'webm'): string {
+  if (!cloudName) return '';
+  return `https://res.cloudinary.com/${cloudName}/video/upload/f_auto,q_auto/${publicId}.${format}`;
+}
+
+function posterUrl(): string {
+  if (!cloudName) return '';
+  // so_0 = snapshot at 0 seconds
+  return `https://res.cloudinary.com/${cloudName}/video/upload/f_auto,q_auto,so_0/${publicId}.jpg`;
+}
+
+const hasSrc = Boolean(cloudName);
+---
+
+{hasSrc ? (
+  <div class:list={["relative group overflow-hidden", className]}>
+    <video
+      class="w-full h-full object-cover"
+      poster={posterUrl()}
+      preload="metadata"
+      playsinline
+      autoplay={autoplay}
+      loop={loop}
+      muted={muted || autoplay}
+      controls={!autoplay && !posterMode}
+    >
+      <source src={videoUrl('webm')} type="video/webm" />
+      <source src={videoUrl('mp4')} type="video/mp4" />
+    </video>
+
+    {posterMode && (
+      <div class="absolute inset-0 flex items-center justify-center">
+        <button
+          class="w-24 h-24 bg-surface-container-lowest/80 backdrop-blur-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500"
+          aria-label="Play video"
+          onclick="this.closest('.group').querySelector('video').play(); this.style.display='none';"
+        >
+          <span
+            class="material-symbols-outlined text-on-surface text-4xl"
+            style="font-variation-settings: 'FILL' 1;"
+          >
+            play_arrow
+          </span>
+        </button>
+      </div>
+    )}
+  </div>
+) : (
+  <div
+    class:list={["bg-surface-container flex items-center justify-center text-on-surface-variant text-xs uppercase tracking-widest", className]}
+    role="img"
+    aria-label="Video placeholder — configure PUBLIC_CLOUDINARY_CLOUD_NAME"
+  >
+    <span class="material-symbols-outlined text-4xl mr-2">videocam_off</span>
+    Video
+  </div>
+)}

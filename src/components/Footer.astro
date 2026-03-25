@@ -1,0 +1,40 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-4 bg-surface-dim">
+  <div class="text-xs uppercase tracking-widest text-primary opacity-90">
+    © {year} Architectural Portfolio
+  </div>
+
+  <div class="flex gap-12">
+    <a
+      href="https://github.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-xs uppercase tracking-widest text-on-surface-variant hover:text-on-surface underline decoration-1 underline-offset-4 opacity-90 hover:opacity-100 transition-opacity"
+    >
+      GitHub
+    </a>
+    <a
+      href="https://linkedin.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-xs uppercase tracking-widest text-on-surface-variant hover:text-on-surface underline decoration-1 underline-offset-4 opacity-90 hover:opacity-100 transition-opacity"
+    >
+      LinkedIn
+    </a>
+    <a
+      href="https://layers.to"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-xs uppercase tracking-widest text-on-surface-variant hover:text-on-surface underline decoration-1 underline-offset-4 opacity-90 hover:opacity-100 transition-opacity"
+    >
+      Layers
+    </a>
+  </div>
+
+  <div class="hidden md:block">
+    <span class="material-symbols-outlined text-primary">adjust</span>
+  </div>
+</footer>

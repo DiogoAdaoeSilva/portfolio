@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #f9f9f7;
+    color: #2d3432;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+    display: inline-block;
+  }
+}
+
+@layer utilities {
+  .monolith-gradient {
+    background: linear-gradient(135deg, #595f66 0%, #4d5359 100%);
+  }
+
+  .glass-nav {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+  }
+}

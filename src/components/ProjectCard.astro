@@ -1,0 +1,62 @@
+---
+import CloudinaryImage from './CloudinaryImage.astro';
+
+interface Props {
+  title: string;
+  category: string;
+  href: string;
+  coverImage: string;
+  /** Tailwind col-span class, e.g. "md:col-span-8" */
+  colSpan?: string;
+  /** Tailwind aspect ratio class, e.g. "aspect-[16/10]" */
+  aspectRatio?: string;
+  /** Extra margin/offset for the staggered bento layout */
+  offsetClass?: string;
+  /** Show the north-east arrow CTA */
+  showArrow?: boolean;
+  /** Show category & year below title */
+  headlineSize?: 'lg' | 'sm';
+}
+
+const {
+  title,
+  category,
+  href,
+  coverImage,
+  colSpan = 'md:col-span-6',
+  aspectRatio = 'aspect-video',
+  offsetClass = '',
+  showArrow = false,
+  headlineSize = 'sm',
+} = Astro.props;
+---
+
+<a href={href} class:list={[colSpan, offsetClass, "group cursor-pointer block"]}>
+  <div class:list={["relative overflow-hidden bg-surface-container-low", aspectRatio]}>
+    <CloudinaryImage
+      publicId={coverImage}
+      alt={title}
+      width={1200}
+      class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+    />
+    <div class="absolute inset-0 bg-on-surface opacity-0 group-hover:opacity-10 transition-opacity"></div>
+  </div>
+
+  <div class:list={["mt-8 flex items-start", showArrow ? "justify-between" : ""]}>
+    <div>
+      <h3 class:list={[
+        "font-bold tracking-tight",
+        headlineSize === 'lg' ? "text-2xl md:text-3xl" : "text-xl",
+      ]}>
+        {title}
+      </h3>
+      <p class="text-on-surface-variant mt-2 font-medium text-sm">{category}</p>
+    </div>
+
+    {showArrow && (
+      <span class="material-symbols-outlined text-3xl group-hover:translate-x-2 transition-transform flex-shrink-0">
+        north_east
+      </span>
+    )}
+  </div>
+</a>

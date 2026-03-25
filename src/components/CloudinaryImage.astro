@@ -1,0 +1,68 @@
+---
+/**
+ * CloudinaryImage
+ * Renders a responsive, lazy-loaded image from Cloudinary.
+ *
+ * Required env var: PUBLIC_CLOUDINARY_CLOUD_NAME
+ *
+ * Usage:
+ *   <CloudinaryImage publicId="folder/my-image" alt="Description" width={1200} />
+ */
+
+interface Props {
+  publicId: string;
+  alt: string;
+  width?: number;
+  class?: string;
+  grayscale?: boolean;
+  /** Extra Cloudinary transform string appended after auto transforms, e.g. "ar_16:9,c_fill" */
+  transforms?: string;
+}
+
+const {
+  publicId,
+  alt,
+  width = 1200,
+  class: className,
+  grayscale = false,
+  transforms: extraTransforms = '',
+} = Astro.props;
+
+const cloudName = import.meta.env.PUBLIC_CLOUDINARY_CLOUD_NAME;
+
+function buildUrl(publicId: string, w: number): string {
+  if (!cloudName) return '';
+  const parts = [
+    `w_${w}`,
+    'f_auto',
+    'q_auto',
+    grayscale ? 'e_grayscale' : '',
+    extraTransforms,
+  ].filter(Boolean).join(',');
+  return `https://res.cloudinary.com/${cloudName}/image/upload/${parts}/${publicId}`;
+}
+
+const src = buildUrl(publicId, width);
+const src2x = buildUrl(publicId, width * 2);
+const hasSrc = Boolean(cloudName);
+---
+
+{hasSrc ? (
+  <img
+    src={src}
+    srcset={`${src} 1x, ${src2x} 2x`}
+    alt={alt}
+    loading="lazy"
+    decoding="async"
+    class={className}
+  />
+) : (
+  <!-- Fallback: placeholder when cloud name is not configured -->
+  <div
+    class:list={["bg-surface-container flex items-center justify-center text-on-surface-variant text-xs uppercase tracking-widest", className]}
+    aria-label={alt}
+    role="img"
+  >
+    {alt}
+  </div>
+)}

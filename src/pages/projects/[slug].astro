@@ -1,0 +1,220 @@
+---
+import { getCollection, render } from 'astro:content';
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import CloudinaryImage from '../../components/CloudinaryImage.astro';
+import CloudinaryVideo from '../../components/CloudinaryVideo.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const {
+  title,
+  tagline,
+  category,
+  year,
+  coverImage,
+  coverVideo,
+  techStack,
+  keyTakeaways,
+  quote,
+  githubUrl,
+  liveUrl,
+} = entry.data;
+
+// Case study number based on order
+const allProjects = await getCollection('projects');
+const sorted = allProjects.sort((a, b) => a.data.order - b.data.order);
+const caseNumber = String(sorted.findIndex((p) => p.id === entry.id) + 1).padStart(2, '0');
+---
+
+<ProjectLayout title={title} tagline={tagline}>
+  <main class="pt-32 pb-24 px-8 max-w-7xl mx-auto">
+
+    <!-- Hero: Editorial Masthead -->
+    <header class="mb-24">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+        <div class="md:col-span-8">
+          <p class="text-xs uppercase tracking-[0.3em] text-on-surface-variant mb-4">
+            Case Study {caseNumber}
+          </p>
+          <h1 class="text-[clamp(3.5rem,10vw,5.5rem)] font-bold leading-[0.9] tracking-tighter text-on-surface uppercase">
+            {title.split('_').map((part, i) => (
+              <>{i > 0 && <span class="text-outline-variant opacity-40">_</span>}{part}</>
+            ))}
+          </h1>
+        </div>
+        <div class="md:col-span-4 pb-4">
+          <div class="h-[2px] w-16 bg-primary mb-6"></div>
+          <p class="text-base text-on-surface-variant leading-relaxed">{tagline}</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Media -->
+    <section class="mb-32">
+      <div class="aspect-video w-full bg-surface-container relative overflow-hidden group">
+        {coverVideo ? (
+          <CloudinaryVideo
+            publicId={coverVideo}
+            class="w-full h-full"
+            posterMode={true}
+          />
+        ) : (
+          <CloudinaryImage
+            publicId={coverImage}
+            alt={title}
+            width={1600}
+            class="w-full h-full object-cover grayscale brightness-90"
+          />
+        )}
+        <div class="absolute bottom-8 left-8">
+          <p class="text-[10px] uppercase tracking-widest text-white/70">
+            {category} // {year}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- The What & The Why -->
+    <section class="mb-32">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-y-16 md:gap-x-16">
+        <div class="md:col-span-5">
+          <h2 class="text-2xl font-bold tracking-tight mb-8 flex items-center gap-3">
+            <span class="w-8 h-[1px] bg-primary"></span>
+            The What
+          </h2>
+          <div class="pl-11 text-base text-on-surface-variant leading-relaxed space-y-6">
+            <Content />
+          </div>
+        </div>
+
+        {quote && (
+          <div class="md:col-start-7 md:col-span-6 bg-surface-container-low p-12">
+            <h2 class="text-2xl font-bold tracking-tight mb-8 flex items-center gap-3">
+              <span class="w-8 h-[1px] bg-primary"></span>
+              The Why
+            </h2>
+            <div class="pl-11">
+              <blockquote class="text-3xl font-medium tracking-tight text-on-surface mb-8 italic">
+                "{quote}"
+              </blockquote>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- Tech Stack -->
+    {techStack.length > 0 && (
+      <section class="mb-32">
+        <h2 class="text-xs uppercase tracking-[0.4em] text-on-surface-variant mb-12 text-center">
+          Engineered Foundation
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-1">
+          {techStack.map((item, i) => (
+            <div class:list={[
+              "p-8 h-48 flex flex-col justify-between",
+              i === techStack.length - 1
+                ? "bg-primary text-on-primary"
+                : i % 3 === 2 ? "bg-surface-dim" : i % 2 === 0 ? "bg-surface-container" : "bg-surface-container-high"
+            ]}>
+              <span class:list={[
+                "material-symbols-outlined text-3xl",
+                i === techStack.length - 1 ? "text-surface-container-lowest" : "text-primary"
+              ]}>
+                {item.icon}
+              </span>
+              <div>
+                <p class:list={[
+                  "font-bold text-sm uppercase tracking-wider mb-1",
+                  i === techStack.length - 1 ? "text-surface-container-lowest" : ""
+                ]}>
+                  {item.name}
+                </p>
+                <p class:list={[
+                  "text-xs",
+                  i === techStack.length - 1 ? "text-surface-container-lowest/70" : "text-on-surface-variant"
+                ]}>
+                  {item.detail}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Key Takeaways -->
+    {keyTakeaways.length > 0 && (
+      <section class="mb-32">
+        <div class="flex flex-col md:flex-row gap-20">
+          <div class="md:w-1/3">
+            <h2 class="text-5xl font-bold tracking-tighter uppercase leading-none text-on-surface">
+              Key<br />Takeaways
+            </h2>
+          </div>
+          <div class="md:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-12">
+            {keyTakeaways.map((item, i) => (
+              <div class="space-y-4">
+                <span class="text-4xl font-light text-outline-variant">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <h3 class="font-bold text-lg uppercase tracking-wide">{item.title}</h3>
+                <p class="text-sm text-on-surface-variant leading-relaxed">{item.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- CTA -->
+    <section class="border-t border-outline-variant/15 pt-20 text-center">
+      {githubUrl ? (
+        <>
+          <p class="text-sm uppercase tracking-[0.2em] text-on-surface-variant mb-8">
+            View the source on GitHub
+          </p>
+          <a
+            href={githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block monolith-gradient text-on-primary px-12 py-5 font-bold uppercase tracking-widest text-sm hover:brightness-110 transition-all active:scale-95"
+          >
+            Explore Repository
+          </a>
+        </>
+      ) : liveUrl ? (
+        <>
+          <p class="text-sm uppercase tracking-[0.2em] text-on-surface-variant mb-8">
+            See it live
+          </p>
+          <a
+            href={liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block monolith-gradient text-on-primary px-12 py-5 font-bold uppercase tracking-widest text-sm hover:brightness-110 transition-all active:scale-95"
+          >
+            Visit Project
+          </a>
+        </>
+      ) : (
+        <a
+          href="/"
+          class="inline-block text-on-surface font-bold text-xs tracking-widest uppercase border-b-2 border-primary pb-1 hover:opacity-70 transition-opacity"
+        >
+          ← Back to Work
+        </a>
+      )}
+    </section>
+
+  </main>
+</ProjectLayout>

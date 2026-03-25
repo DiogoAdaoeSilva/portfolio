@@ -1,0 +1,62 @@
+---
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const isActive = (path: string) => {
+  if (path === '/') return currentPath === '/';
+  return currentPath.startsWith(path);
+};
+---
+
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-8 py-6 bg-[#f9f9f7]">
+  <a href="/" class="text-xl font-bold tracking-tighter text-on-surface uppercase">VIBE</a>
+
+  <div class="hidden md:flex items-center gap-12">
+    <a
+      href="/"
+      class:list={[
+        "font-medium tracking-tight text-sm transition-colors",
+        isActive('/') && !isActive('/projects')
+          ? "text-on-surface border-b-2 border-primary pb-1"
+          : "text-on-surface-variant hover:text-on-surface",
+      ]}
+    >
+      Home
+    </a>
+    <a
+      href="/projects"
+      class:list={[
+        "font-medium tracking-tight text-sm transition-colors",
+        isActive('/projects')
+          ? "text-on-surface border-b-2 border-primary pb-1"
+          : "text-on-surface-variant hover:text-on-surface",
+      ]}
+    >
+      Work
+    </a>
+    <a
+      href="/about"
+      class:list={[
+        "font-medium tracking-tight text-sm transition-colors",
+        isActive('/about')
+          ? "text-on-surface border-b-2 border-primary pb-1"
+          : "text-on-surface-variant hover:text-on-surface",
+      ]}
+    >
+      About
+    </a>
+  </div>
+
+  <div class="flex items-center gap-6">
+    <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 group">
+      <span class="material-symbols-outlined text-primary group-hover:text-on-surface transition-colors">terminal</span>
+      <span class="font-medium tracking-tight text-sm text-primary group-hover:text-on-surface transition-colors hidden md:inline">GitHub</span>
+    </a>
+    <button class="material-symbols-outlined text-primary hover:bg-surface-container-low p-2 transition-all md:hidden">
+      menu
+    </button>
+  </div>
+</nav>
