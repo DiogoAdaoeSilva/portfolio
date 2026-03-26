@@ -41,7 +41,7 @@ keyLearnings:
     body: "Experimented with AnythingLLM and Open WebUI"
 quote: "If you would not be forgotten, as soon as you are dead and rotten, either write things worth reading, or do things worth writing"
 githubUrl: "https://github.com/DiogoAdaoeSilva/mynotes-chatbot"
-tags: ["RAG", "Local AI", "Python"]
+tags: ["RAG"]
 featured: true
 order: 1
 ---
