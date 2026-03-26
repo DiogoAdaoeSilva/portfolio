@@ -1,0 +1,148 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CloudinaryImage from '../../components/CloudinaryImage.astro';
+
+const allProjects = await getCollection('projects');
+const sorted = allProjects.sort((a, b) => a.data.order - b.data.order);
+
+const allTags = [...new Set(sorted.flatMap(p => p.data.tags ?? []))].sort();
+const showFilter = allTags.length >= 2;
+---
+
+<BaseLayout title="Archive — VIBE">
+  <main class="pt-32 pb-24">
+
+    <!-- Masthead -->
+    <section class="px-8 md:px-24 mb-16">
+      <div class="max-w-7xl mx-auto">
+        <p class="text-xs uppercase tracking-widest text-on-surface-variant mb-6">Selected Works</p>
+        <h1 class="text-[clamp(3rem,10vw,7rem)] font-black tracking-tighter leading-[0.85] text-on-surface mb-12">
+          ARCHIVE
+        </h1>
+        <p class="text-base text-on-surface-variant leading-relaxed md:ml-[20%] max-w-xl">
+          A collection of coding experiments — each project a new challenge, a new learning.
+        </p>
+      </div>
+    </section>
+
+    <!-- Filter Bar -->
+    {showFilter && (
+      <section class="px-8 md:px-24 mb-8" id="filter-bar">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center gap-8 border-b border-outline-variant/10 pb-6">
+          <span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Filters /</span>
+          <button
+            class="filter-btn text-sm font-bold text-on-surface border-b border-primary pb-1"
+            data-tag="all"
+          >
+            All
+          </button>
+          {allTags.map(tag => (
+            <button
+              class="filter-btn text-sm text-on-surface-variant hover:text-on-surface transition-colors"
+              data-tag={tag}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Project List -->
+    <section class="px-8 md:px-24" id="project-list">
+      <div class="max-w-7xl mx-auto">
+        {sorted.map((project, i) => (
+          <a
+            href={`/projects/${project.id}`}
+            class="project-row group relative flex items-center gap-8 border-b border-outline-variant/10 hover:bg-surface-container-low transition-colors duration-300 -mx-8 px-8 md:-mx-24 md:px-24" style="height: 265px;"
+            data-tags={(project.data.tags ?? []).join(',')}
+          >
+            <!-- Hover Image Reveal -->
+            <div
+              class="project-image hidden md:block absolute right-32 top-1/2 translate-y-4 w-72 aspect-[4/5] overflow-hidden opacity-0 -translate-x-4 pointer-events-none z-10"
+            >
+              <CloudinaryImage
+                publicId={project.data.coverImage}
+                alt={project.data.title}
+                width={600}
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <!-- Number -->
+            <span class="text-xs font-bold text-on-surface-variant tabular-nums flex-shrink-0 w-8">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+
+            <!-- Title -->
+            <h2 class="flex-1 text-4xl md:text-7xl font-bold tracking-tighter text-on-surface group-hover:translate-x-4 transition-transform duration-500">
+              {project.data.title}
+            </h2>
+
+            <!-- Year -->
+            <span class="text-sm text-on-surface-variant font-medium flex-shrink-0 hidden md:block">
+              {project.data.year}
+            </span>
+
+            <!-- Arrow -->
+            <span class="material-symbols-outlined text-2xl text-on-surface flex-shrink-0 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300">
+              arrow_outward
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Bottom Spacer Section -->
+    <section class="px-8 md:px-24 mt-48 pb-48">
+      <div class="max-w-7xl mx-auto border-t border-outline-variant/10 pt-16">
+        <h3 class="text-3xl md:text-5xl font-bold tracking-tight text-on-surface leading-tight max-w-2xl">
+          "The doors of Wisdom are never shut."
+        </h3>
+      </div>
+    </section>
+
+  </main>
+</BaseLayout>
+
+{showFilter && (
+  <script>
+    const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const rows    = document.querySelectorAll<HTMLElement>('[data-tags]');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tag = btn.dataset.tag ?? 'all';
+
+        buttons.forEach(b => {
+          const isActive = b.dataset.tag === tag;
+          b.classList.toggle('font-bold', isActive);
+          b.classList.toggle('text-on-surface', isActive);
+          b.classList.toggle('border-b', isActive);
+          b.classList.toggle('border-primary', isActive);
+          b.classList.toggle('pb-1', isActive);
+          b.classList.toggle('text-on-surface-variant', !isActive);
+        });
+
+        rows.forEach(row => {
+          const rowTags = (row.dataset.tags ?? '').split(',');
+          const visible = tag === 'all' || rowTags.includes(tag);
+          row.style.display = visible ? '' : 'none';
+        });
+      });
+    });
+  </script>
+)}
+
+<style>
+  .project-image {
+    transition: opacity 0.5s cubic-bezier(0.19, 1, 0.22, 1),
+                transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  .project-row:hover .project-image {
+    opacity: 1;
+    transform: translateY(1rem) translateX(0);
+  }
+</style>

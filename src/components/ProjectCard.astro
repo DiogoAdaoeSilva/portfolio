@@ -16,6 +16,8 @@ interface Props {
   showArrow?: boolean;
   /** Show category & year below title */
   headlineSize?: 'lg' | 'sm';
+  /** Tags used for client-side filtering */
+  tags?: string[];
 }
 
 const {
@@ -28,10 +30,11 @@ const {
   offsetClass = '',
   showArrow = false,
   headlineSize = 'sm',
+  tags = [],
 } = Astro.props;
 ---
 
-<a href={href} class:list={[colSpan, offsetClass, "group cursor-pointer block"]}>
+<a href={href} class:list={[colSpan, offsetClass, "group cursor-pointer block"]} data-tags={tags.join(',')}>
   <div class:list={["relative overflow-hidden bg-surface-container-low", aspectRatio]}>
     <CloudinaryImage
       publicId={coverImage}

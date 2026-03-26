@@ -12,8 +12,9 @@ const isActive = (path: string) => {
 ---
 
 <nav class="fixed top-0 w-full z-50 flex justify-between items-center px-8 py-6 bg-[#f9f9f7]">
-  <a href="/" class="text-xl font-bold tracking-tighter text-on-surface uppercase">VIBE</a>
+  <a href="/" class="text-xl font-black tracking-tighter text-on-surface uppercase">VIBE</a>
 
+  <!-- Desktop links -->
   <div class="hidden md:flex items-center gap-12">
     <a
       href="/"
@@ -50,13 +51,92 @@ const isActive = (path: string) => {
     </a>
   </div>
 
-  <div class="flex items-center gap-6">
-    <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 group">
-      <span class="material-symbols-outlined text-primary group-hover:text-on-surface transition-colors">terminal</span>
-      <span class="font-medium tracking-tight text-sm text-primary group-hover:text-on-surface transition-colors hidden md:inline">GitHub</span>
-    </a>
-    <button class="material-symbols-outlined text-primary hover:bg-surface-container-low p-2 transition-all md:hidden">
-      menu
-    </button>
-  </div>
+  <!-- Spacer mirrors the logo width to keep nav links centered on desktop -->
+  <div class="hidden md:block text-xl font-black tracking-tighter uppercase invisible" aria-hidden="true">VIBE</div>
+
+  <!-- Mobile burger button -->
+  <button
+    id="mobile-menu-btn"
+    class="md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8"
+    aria-label="Open menu"
+    aria-expanded="false"
+  >
+    <span class="burger-line block w-5 h-[1.5px] bg-on-surface transition-all duration-300"></span>
+    <span class="burger-line block w-5 h-[1.5px] bg-on-surface transition-all duration-300"></span>
+  </button>
 </nav>
+
+<!-- Mobile drawer -->
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-40 bg-[#f9f9f7] flex flex-col justify-center px-8 translate-x-full transition-transform duration-300 md:hidden"
+  aria-hidden="true"
+>
+  <nav class="flex flex-col gap-10">
+    <a
+      href="/"
+      class:list={[
+        "text-4xl font-black tracking-tighter transition-colors",
+        isActive('/') && !isActive('/projects')
+          ? "text-on-surface"
+          : "text-on-surface-variant",
+      ]}
+    >
+      Home
+    </a>
+    <a
+      href="/projects"
+      class:list={[
+        "text-4xl font-black tracking-tighter transition-colors",
+        isActive('/projects')
+          ? "text-on-surface"
+          : "text-on-surface-variant",
+      ]}
+    >
+      Work
+    </a>
+    <a
+      href="/about"
+      class:list={[
+        "text-4xl font-black tracking-tighter transition-colors",
+        isActive('/about')
+          ? "text-on-surface"
+          : "text-on-surface-variant",
+      ]}
+    >
+      About
+    </a>
+  </nav>
+</div>
+
+<script>
+  const btn   = document.getElementById('mobile-menu-btn')!;
+  const menu  = document.getElementById('mobile-menu')!;
+  const lines = btn.querySelectorAll<HTMLElement>('.burger-line');
+
+  function openMenu() {
+    menu.classList.remove('translate-x-full');
+    menu.setAttribute('aria-hidden', 'false');
+    btn.setAttribute('aria-expanded', 'true');
+    btn.setAttribute('aria-label', 'Close menu');
+    // Animate to X
+    lines[0].style.transform = 'translateY(3.5px) rotate(45deg)';
+    lines[1].style.transform = 'translateY(-3.5px) rotate(-45deg)';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    menu.classList.add('translate-x-full');
+    menu.setAttribute('aria-hidden', 'true');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open menu');
+    lines[0].style.transform = '';
+    lines[1].style.transform = '';
+    document.body.style.overflow = '';
+  }
+
+  btn.addEventListener('click', () => {
+    const isOpen = btn.getAttribute('aria-expanded') === 'true';
+    isOpen ? closeMenu() : openMenu();
+  });
+</script>

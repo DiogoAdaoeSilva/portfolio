@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About — VIBE" description="About the developer behind VIBE Coding Portfolio.">
+  <main class="pt-32 pb-0 flex flex-col" style="min-height: calc(100vh - 5rem);">
+
+    <!-- Hero Section -->
+    <section class="px-8 md:px-24 mb-24 md:mb-40">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+
+          <!-- Name -->
+          <h1 class="text-[clamp(3.75rem,12vw,8rem)] font-extrabold tracking-tighter leading-none text-on-surface">
+            DIOGO<br/>ADÃO E SILVA
+          </h1>
+
+          <!-- Description — right column, vertically centered -->
+          <div class="flex items-center md:pt-12">
+            <p class="text-on-surface-variant text-lg leading-relaxed md:indent-16 max-w-[448px] ml-auto">
+              This is a temporary website where I am collecting my evening projects. Thank you for visiting.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Spacer pushes contact to bottom -->
+    <div class="flex-1"></div>
+
+    <!-- Contact Section -->
+    <section class="px-8 md:px-24 pb-24">
+      <div class="max-w-7xl mx-auto border-t border-outline-variant/20 pt-24">
+        <div class="flex flex-col md:flex-row justify-between items-start gap-16 md:gap-24">
+
+          <div class="flex-1">
+            <h2 class="text-sm font-bold tracking-[0.3em] uppercase text-on-surface-variant mb-12">Contact</h2>
+            <a
+              class="text-4xl md:text-6xl font-medium tracking-tighter text-on-surface hover:text-primary transition-colors border-b-4 border-outline-variant/30 pb-4 block w-fit"
+              href="mailto:diogofcruz@gmail.com"
+            >
+              diogofcruz@gmail.com
+            </a>
+          </div>
+
+          <div class="flex flex-col gap-12 md:text-right">
+            <div>
+              <p class="text-on-surface-variant text-xs uppercase tracking-[0.2em] mb-2">Location</p>
+              <p class="text-2xl font-light tracking-tight text-on-surface">Milan, Italy</p>
+            </div>
+            <div>
+              <p class="text-on-surface-variant text-xs uppercase tracking-[0.2em] mb-2">Timezone</p>
+              <p class="text-2xl font-light tracking-tight text-on-surface">UTC+1 (CET)</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+</BaseLayout>

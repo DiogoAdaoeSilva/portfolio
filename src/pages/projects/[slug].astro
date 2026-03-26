@@ -1,8 +1,9 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import ProjectLayout from '../../layouts/ProjectLayout.astro';
 import CloudinaryImage from '../../components/CloudinaryImage.astro';
 import CloudinaryVideo from '../../components/CloudinaryVideo.astro';
+import ProjectMediaSection from '../../components/ProjectMediaSection.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -13,7 +14,6 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await render(entry);
 
 const {
   title,
@@ -23,11 +23,37 @@ const {
   coverImage,
   coverVideo,
   techStack,
-  keyTakeaways,
+  mediaSections,
+  keyLearnings,
   quote,
   githubUrl,
   liveUrl,
 } = entry.data;
+
+// Split body on <!-- why --> to get separate What / Why sections
+const WHY_DIVIDER = '<!-- why -->';
+const rawBody = entry.body ?? '';
+const [whatRaw, whyRaw = ''] = rawBody.split(WHY_DIVIDER);
+
+// Convert markdown paragraphs to HTML (paragraphs, line breaks, bold, italic, inline code)
+function toHtml(text: string): string {
+  return text
+    .trim()
+    .split(/\n\n+/)
+    .filter(Boolean)
+    .map(p => {
+      const html = p.trim()
+        .replace(/\n/g, '<br>')
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/`(.+?)`/g, '<code>$1</code>');
+      return `<p>${html}</p>`;
+    })
+    .join('');
+}
+
+const whatHtml = toHtml(whatRaw);
+const whyHtml  = toHtml(whyRaw);
 
 // Case study number based on order
 const allProjects = await getCollection('projects');
@@ -76,7 +102,7 @@ const caseNumber = String(sorted.findIndex((p) => p.id === entry.id) + 1).padSta
           />
         )}
         <div class="absolute bottom-8 left-8">
-          <p class="text-[10px] uppercase tracking-widest text-white/70">
+          <p class="text-[10px] uppercase tracking-widest text-white mix-blend-difference">
             {category} // {year}
           </p>
         </div>
@@ -91,21 +117,24 @@ const caseNumber = String(sorted.findIndex((p) => p.id === entry.id) + 1).padSta
             <span class="w-8 h-[1px] bg-primary"></span>
             The What
           </h2>
-          <div class="pl-11 text-base text-on-surface-variant leading-relaxed space-y-6">
-            <Content />
-          </div>
+          <div class="pl-11 text-base text-on-surface-variant leading-relaxed space-y-6" set:html={whatHtml} />
         </div>
 
-        {quote && (
+        {(quote || whyHtml) && (
           <div class="md:col-start-7 md:col-span-6 bg-surface-container-low p-12">
             <h2 class="text-2xl font-bold tracking-tight mb-8 flex items-center gap-3">
               <span class="w-8 h-[1px] bg-primary"></span>
               The Why
             </h2>
             <div class="pl-11">
-              <blockquote class="text-3xl font-medium tracking-tight text-on-surface mb-8 italic">
-                "{quote}"
-              </blockquote>
+              {quote && (
+                <blockquote class="text-3xl font-medium tracking-tight text-on-surface mb-8 italic">
+                  "{quote}"
+                </blockquote>
+              )}
+              {whyHtml && (
+                <div class="text-base text-on-surface-variant leading-relaxed space-y-6" set:html={whyHtml} />
+              )}
             </div>
           </div>
         )}
@@ -116,7 +145,7 @@ const caseNumber = String(sorted.findIndex((p) => p.id === entry.id) + 1).padSta
     {techStack.length > 0 && (
       <section class="mb-32">
         <h2 class="text-xs uppercase tracking-[0.4em] text-on-surface-variant mb-12 text-center">
-          Engineered Foundation
+          TECH STACK
         </h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-1">
           {techStack.map((item, i) => (
@@ -152,17 +181,24 @@ const caseNumber = String(sorted.findIndex((p) => p.id === entry.id) + 1).padSta
       </section>
     )}
 
-    <!-- Key Takeaways -->
-    {keyTakeaways.length > 0 && (
+    <!-- Media Sections -->
+    {mediaSections.length > 0 && mediaSections.map((section) => (
+      <section class="mb-32">
+        <ProjectMediaSection layout={section.layout} items={section.items} />
+      </section>
+    ))}
+
+    <!-- Key Learnings -->
+    {keyLearnings.length > 0 && (
       <section class="mb-32">
         <div class="flex flex-col md:flex-row gap-20">
           <div class="md:w-1/3">
             <h2 class="text-5xl font-bold tracking-tighter uppercase leading-none text-on-surface">
-              Key<br />Takeaways
+              Key<br />Learnings
             </h2>
           </div>
           <div class="md:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-12">
-            {keyTakeaways.map((item, i) => (
+            {keyLearnings.map((item, i) => (
               <div class="space-y-4">
                 <span class="text-4xl font-light text-outline-variant">
                   {String(i + 1).padStart(2, '0')}

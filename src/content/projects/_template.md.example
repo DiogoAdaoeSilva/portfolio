@@ -18,26 +18,58 @@ techStack:
   - name: "Motion"
     detail: "Animation library"
     icon: "auto_awesome"
-keyTakeaways:
-  - title: "Takeaway One"
+# mediaSections: optional — shown between Tech Stack and Key Learnings
+# Remove the '#' from the layout you want to use, or include both.
+#
+# Option A — side-by-side (2-col grid, square aspect, fig caption)
+# mediaSections:
+#   - layout: "side-by-side"
+#     items:
+#       - publicId: "folder/image-a"
+#         label: "Fig 01"
+#         caption: "Short description of this image."
+#       - publicId: "folder/image-b"
+#         label: "Fig 02"
+#         caption: "Short description of this image."
+#
+# Option B — stacked (full-width rows, video aspect, plate caption)
+# mediaSections:
+#   - layout: "stacked"
+#     items:
+#       - publicId: "folder/image-c"
+#         label: "Plate 01"
+#         title: "Section Title"
+#         caption: "Longer description of what this image shows."
+#       - publicId: "folder/video-d"
+#         type: "video"
+#         label: "Plate 02"
+#         title: "Section Title"
+#         caption: "Longer description of what this video shows."
+
+keyLearnings:
+  - title: "Learning One"
     body: "What was learned or achieved with this aspect of the project."
-  - title: "Takeaway Two"
+  - title: "Learning Two"
     body: "Second insight or result worth highlighting."
-  - title: "Takeaway Three"
+  - title: "Learning Three"
     body: "Third finding that shaped the final outcome."
-  - title: "Takeaway Four"
+  - title: "Learning Four"
     body: "Final reflection on process, constraints, or design decisions."
 # quote: "An optional pull quote that captures the project's philosophy."
 # githubUrl: "https://github.com/you/repo"
 # liveUrl: "https://project.example.com"
+tags: ["Tag One", "Tag Two"]
 featured: false
 order: 99
 ---
 
-## The What
+Write your "The What" content here — what it does, who it's for, what problem it solves.
 
-Describe the project in plain terms. What does it do? Who is it for? What problem does it solve?
+Add as many paragraphs as needed with a blank line between each.
+Line breaks within a paragraph work too — just press Enter once.
 
-## The Why
+<!-- why -->
 
-What motivated this work? What constraints, opportunities, or questions drove the design decisions?
+Write your "The Why" content here — motivation, constraints, decisions.
+
+Use as many paragraphs as you like. The `quote` frontmatter field appears above this as a pull quote.

@@ -1,0 +1,99 @@
+---
+import CloudinaryImage from './CloudinaryImage.astro';
+import CloudinaryVideo from './CloudinaryVideo.astro';
+
+interface MediaItem {
+  publicId: string;
+  type: 'image' | 'video';
+  autoplay: boolean;
+  loop: boolean;
+  label?: string;
+  title?: string;
+  caption?: string;
+}
+
+interface Props {
+  /** 'side-by-side' — 2-col grid, square aspect, fig-style caption */
+  /** 'stacked'      — full-width rows, video aspect, plate-style caption */
+  layout: 'side-by-side' | 'stacked';
+  items: MediaItem[];
+}
+
+const { layout, items } = Astro.props;
+---
+
+{layout === 'side-by-side' ? (
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    {items.map((item) => (
+      <div class="space-y-4">
+        <div class="aspect-square bg-surface-container-low relative overflow-hidden group">
+          {item.type === 'video' ? (
+            <CloudinaryVideo
+              publicId={item.publicId}
+              class="w-full h-full"
+              autoplay={item.autoplay}
+              loop={item.loop}
+              muted={true}
+              posterMode={!item.autoplay}
+            />
+          ) : (
+            <CloudinaryImage
+              publicId={item.publicId}
+              alt={item.title ?? item.caption ?? ''}
+              class="w-full h-full object-cover grayscale brightness-95 hover:scale-105 transition-transform duration-700"
+            />
+          )}
+        </div>
+        {(item.label || item.caption) && (
+          <p class="text-[10px] uppercase tracking-widest text-on-surface-variant">
+            {item.label && <span class="font-bold">{item.label}.</span>}{' '}
+            {item.caption}
+          </p>
+        )}
+      </div>
+    ))}
+  </div>
+) : (
+  <div class="space-y-16">
+    {items.map((item) => (
+      <div class="group">
+        <div class="aspect-video w-full bg-surface-container-high overflow-hidden">
+          {item.type === 'video' ? (
+            <CloudinaryVideo
+              publicId={item.publicId}
+              class="w-full h-full"
+              autoplay={item.autoplay}
+              loop={item.loop}
+              muted={true}
+              posterMode={!item.autoplay}
+            />
+          ) : (
+            <CloudinaryImage
+              publicId={item.publicId}
+              alt={item.title ?? ''}
+              width={1600}
+              class="w-full h-full object-cover grayscale brightness-95 hover:scale-105 transition-transform duration-700"
+            />
+          )}
+        </div>
+        <div class="mt-6 flex items-start gap-4">
+          {item.label && (
+            <span class="text-[10px] font-bold tracking-widest text-primary uppercase pt-1 flex-shrink-0">
+              {item.label}
+            </span>
+          )}
+          <div>
+            {item.title && (
+              <h3 class="font-bold text-sm uppercase tracking-wider text-on-surface">
+                {item.title}
+              </h3>
+            )}
+            {item.caption && (
+              <p class="text-xs text-on-surface-variant mt-1">{item.caption}</p>
+            )}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+)}

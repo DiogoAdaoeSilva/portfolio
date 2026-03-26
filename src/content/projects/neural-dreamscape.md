@@ -1,46 +1,63 @@
 ---
-title: "Neural_Dreamscape"
-tagline: "A generative system that transforms latent space vectors into architectural spatial sequences."
-category: "Generative Core"
-year: 2024
-coverImage: "portfolio/neural-dreamscape-cover"
+title: "My Notes Chatbot"
+tagline: "Digitize handwritten journals, search them by content and date, and chat with them using an LLM with RAG."
+category: "ChatBOT with RAG"
+year: 2026
+coverImage: "IMG_5547_y9jitv.jpg"
 # coverVideo: "portfolio/neural-dreamscape-demo"
 techStack:
-  - name: "Architecture"
-    detail: "Next.js 14 App Router"
-    icon: "layers"
-  - name: "Styling"
-    detail: "Tailwind CSS v3.4"
-    icon: "palette"
-  - name: "Data Layer"
-    detail: "Supabase & PostgreSQL"
+  - name: "OCR"
+    detail: "Gemini 3.1 Pro Preview via Gemini AI API"
+    icon: "document_scanner"
+  - name: "Database"
+    detail: "SQLite (structured) + ChromaDB (semantic)"
     icon: "database"
-  - name: "Motion"
-    detail: "Framer Motion Core"
-    icon: "auto_awesome"
-keyTakeaways:
-  - title: "Spatial Literacy"
-    body: "Users navigate more intuitively when depth is defined by tonal variation rather than heavy borders or distinct containers."
-  - title: "Type as Mass"
-    body: "Large-scale display typography acts as a structural anchor, replacing the need for decorative dividers."
-  - title: "Material Honesty"
-    body: "Using the full gamut of surface tones from the design system provides a tactile feel that connects with users emotionally."
-  - title: "Intentional Void"
-    body: "Generous whitespace is not 'empty'—it is a premium design choice that creates luxury and focus."
-quote: "Structure is not the enclosure, but the catalyst for meaningful movement."
-# githubUrl: "https://github.com/you/neural-dreamscape"
+  - name: "LLMs"
+    detail: "Llama 3.1 8B via Ollama and Gemini 3.1 Pro Preview"
+    icon: "smart_toy"
+  - name: "Chat UIs"
+    detail: "AnythingLLM and Flask server"
+    icon: "chat"
+mediaSections:
+  - layout: "side-by-side"
+    items:
+      - publicId: "Handwritten_note10.05.2025_fqxih3.jpg"
+        label: "Image 01"
+        caption: "Handwritten page from my notes"
+      - publicId: "chatbot_demo_mb7xoi.mp4"
+        type: "video"
+        autoplay: true
+        loop: true
+        label: "Fig 02"
+        caption: "Asking Chatbot about highlights of my Japan trip"
+keyLearnings:
+  - title: "LLM with RAG"
+    body: "Giving an LLM context specific to the task, in this case my handwritten notes"
+  - title: "Running an LLM Locally"
+    body: "Using Llama 3.1 8B via Ollama, ensuring privacy when required"
+  - title: "Using Skills with an Agent"
+    body: "Storing specific Skills files - in this case for access to updated API documentation"
+  - title: 'Using "local by default" tools for Chatbot with RAG'
+    body: "Experimented with AnythingLLM and Open WebUI"
+quote: "If you would not be forgotten, as soon as you are dead and rotten, either write things worth reading, or do things worth writing"
+githubUrl: "https://github.com/DiogoAdaoeSilva/mynotes-chatbot"
+tags: ["RAG", "Local AI", "Python"]
 featured: true
 order: 1
 ---
+I built an end-to-end pipeline that digitizes personal handwritten journals and makes them queryable via a custom RAG (Retrieval-Augmented Generation) Chatbot.
 
-## The What
+Phase 1 OCR Optimization - I iterated through different OCR engines, reducing the Character Error Rate (CER) from 22.7% to < 4%. The extracted text and metadata is store in SQLite, while using ChromaDB as a vector store to enable semantic search (search by meaning not just words).
 
-This project serves as a definitive exploration of modern web structuralism. By removing the traditional "card and border" paradigm, we focus entirely on the spatial relationship between typography and void.
+Phase 2 Chatbot with RAG implementation - testing two distinct chatbot architectures: Local: Llama 3.1 8B running on macOS (M4) via Ollama and a custom Flask UI. Cloud-Hybrid: Gemini 3.1 Pro-Preview integrated through AnythingLLM.
 
-The interface utilizes a tiered surface system—moving from high-key white foundations to deep slate utility areas, creating a psychological sense of depth without the use of artificial drop shadows.
+The Gemini-powered setup provided the best reasoning and retrieval accuracy. By using the Gemini API with AnythingLLM, I maintained data privacy: all notes are indexed locally on my Mac, and only specific, encrypted text snippets are sent to Google’s API. In the paid tier, these prompts are excluded from model training.
 
-## The Why
+Tools: **Claude Code**, **Cursor**
 
-The objective was to create a "Quiet Interface"—a workspace that demands zero cognitive overhead. By leveraging architectural principles, the content is anchored by mass, allowing the user's focus to remain undisturbed.
+<!-- why -->
 
-Every decision was tested against a single question: does this element earn its place, or does it add noise?
+I have several handwritten journals that store thoughts and memories of great moments through the years. Now I can chat about them with a Chatbot on my laptop, while still keeping them private. My notes are in both Portuguese and English and sometimes my handwriting is so bad I have a hard time understanding what I wrote, a problem that OCR solved!
+
+
+

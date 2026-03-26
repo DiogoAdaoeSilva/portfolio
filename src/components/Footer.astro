@@ -2,14 +2,14 @@
 const year = new Date().getFullYear();
 ---
 
-<footer class="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-4 bg-surface-dim">
+<footer class="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-4 bg-surface-dim md:relative">
   <div class="text-xs uppercase tracking-widest text-primary opacity-90">
-    © {year} Architectural Portfolio
+    {year} VIBE CODING PORTFOLIO
   </div>
 
-  <div class="flex gap-12">
+  <div class="flex gap-12 md:absolute md:left-1/2 md:-translate-x-1/2">
     <a
-      href="https://github.com"
+      href="https://github.com/DiogoAdaoeSilva"
       target="_blank"
       rel="noopener noreferrer"
       class="text-xs uppercase tracking-widest text-on-surface-variant hover:text-on-surface underline decoration-1 underline-offset-4 opacity-90 hover:opacity-100 transition-opacity"
@@ -17,20 +17,12 @@ const year = new Date().getFullYear();
       GitHub
     </a>
     <a
-      href="https://linkedin.com"
+      href="https://www.linkedin.com/in/diogoadaoesilva/"
       target="_blank"
       rel="noopener noreferrer"
       class="text-xs uppercase tracking-widest text-on-surface-variant hover:text-on-surface underline decoration-1 underline-offset-4 opacity-90 hover:opacity-100 transition-opacity"
     >
       LinkedIn
-    </a>
-    <a
-      href="https://layers.to"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="text-xs uppercase tracking-widest text-on-surface-variant hover:text-on-surface underline decoration-1 underline-offset-4 opacity-90 hover:opacity-100 transition-opacity"
-    >
-      Layers
     </a>
   </div>
 

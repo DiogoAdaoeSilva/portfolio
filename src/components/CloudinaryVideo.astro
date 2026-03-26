@@ -30,19 +30,39 @@ const {
 } = Astro.props;
 
 const cloudName = import.meta.env.PUBLIC_CLOUDINARY_CLOUD_NAME;
+const isFullUrl = publicId.startsWith('http://') || publicId.startsWith('https://');
+
+// Extract public ID from a full Cloudinary URL, stripping version and extension
+function extractPublicId(url: string): string {
+  const match = url.match(/\/upload\/(?:v\d+\/)?(.+?)(?:\.[a-z0-9]+)?$/i);
+  return match ? match[1] : url;
+}
+
+// Strip any file extension from the public ID (.mov, .mp4, .jpg, etc.)
+function stripExtension(id: string): string {
+  return id.replace(/\.[a-z0-9]+$/i, '');
+}
+
+const resolvedCloudName = isFullUrl
+  ? publicId.match(/res\.cloudinary\.com\/([^/]+)/)?.[1] ?? cloudName
+  : cloudName;
+
+const resolvedId = stripExtension(
+  isFullUrl ? extractPublicId(publicId) : publicId
+);
 
 function videoUrl(format: 'mp4' | 'webm'): string {
-  if (!cloudName) return '';
-  return `https://res.cloudinary.com/${cloudName}/video/upload/f_auto,q_auto/${publicId}.${format}`;
+  if (!resolvedCloudName || !resolvedId) return '';
+  return `https://res.cloudinary.com/${resolvedCloudName}/video/upload/f_auto,q_auto/${resolvedId}.${format}`;
 }
 
 function posterUrl(): string {
-  if (!cloudName) return '';
+  if (!resolvedCloudName || !resolvedId) return '';
   // so_0 = snapshot at 0 seconds
-  return `https://res.cloudinary.com/${cloudName}/video/upload/f_auto,q_auto,so_0/${publicId}.jpg`;
+  return `https://res.cloudinary.com/${resolvedCloudName}/video/upload/f_auto,q_auto,so_0/${resolvedId}.jpg`;
 }
 
-const hasSrc = Boolean(cloudName);
+const hasSrc = Boolean(resolvedCloudName && resolvedId);
 ---
 
 {hasSrc ? (
