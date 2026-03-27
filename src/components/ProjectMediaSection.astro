@@ -64,8 +64,8 @@ const { layout, items } = Astro.props;
               class="w-full h-full"
               autoplay={item.autoplay}
               loop={item.loop}
-              muted={true}
-              posterMode={!item.autoplay}
+              muted={item.autoplay}
+              posterMode={false}
             />
           ) : (
             <CloudinaryImage
