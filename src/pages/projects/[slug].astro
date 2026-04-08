@@ -22,6 +22,7 @@ const {
   year,
   coverImage,
   coverVideo,
+  coverVideoFormat,
   techStack,
   mediaSections,
   keyLearnings,
@@ -86,27 +87,45 @@ const caseNumber = String(sorted.findIndex((p) => p.id === entry.id) + 1).padSta
 
     <!-- Hero Media -->
     <section class="mb-32">
-      <div class="aspect-video w-full bg-surface-container relative overflow-hidden group">
-        {coverVideo ? (
-          <CloudinaryVideo
-            publicId={coverVideo}
-            class="w-full h-full"
-            posterMode={true}
-          />
-        ) : (
-          <CloudinaryImage
-            publicId={coverImage}
-            alt={title}
-            width={1600}
-            class="w-full h-full object-cover grayscale brightness-90"
-          />
-        )}
-        <div class="absolute bottom-8 left-8">
-          <p class="text-[10px] uppercase tracking-widest text-white mix-blend-difference">
-            {category} // {year}
-          </p>
+      {coverVideo && coverVideoFormat === 'vertical' ? (
+        <div class="bg-surface-container py-16 flex justify-center relative">
+          <div class="w-full max-w-[260px] sm:max-w-[300px] rounded-[2rem] overflow-hidden border-[6px] border-surface-container-high shadow-2xl">
+            <CloudinaryVideo
+              publicId={coverVideo}
+              class="w-full"
+              posterMode={true}
+              loop={true}
+            />
+          </div>
+          <div class="absolute bottom-8 left-8">
+            <p class="text-[10px] uppercase tracking-widest text-on-surface-variant">
+              {category} // {year}
+            </p>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div class="aspect-video w-full bg-surface-container relative overflow-hidden group">
+          {coverVideo ? (
+            <CloudinaryVideo
+              publicId={coverVideo}
+              class="w-full h-full"
+              posterMode={true}
+            />
+          ) : (
+            <CloudinaryImage
+              publicId={coverImage}
+              alt={title}
+              width={1600}
+              class="w-full h-full object-cover grayscale brightness-90"
+            />
+          )}
+          <div class="absolute bottom-8 left-8">
+            <p class="text-[10px] uppercase tracking-widest text-white mix-blend-difference">
+              {category} // {year}
+            </p>
+          </div>
+        </div>
+      )}
     </section>
 
     <!-- The What & The Why -->

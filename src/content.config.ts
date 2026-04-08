@@ -13,6 +13,8 @@ const projects = defineCollection({
     coverImage: z.string(),
     /** Cloudinary public ID for an optional hero video */
     coverVideo: z.string().optional(),
+    /** Orientation of the cover video — 'landscape' (16:9) or 'vertical' (9:16 phone recording) */
+    coverVideoFormat: z.enum(['landscape', 'vertical']).default('landscape'),
     techStack: z.array(
       z.object({
         /** Section label, e.g. "Architecture" */

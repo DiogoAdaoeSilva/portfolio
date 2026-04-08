@@ -5,7 +5,8 @@ tagline: "Fetch X bookmarks, classify them with AI, and receive a curated daily 
 category: "Automation Pipeline"
 year: 2026
 coverImage: "hero_imageXbookmarks_nexqgt"
-coverVideo: "xbookmarks_xayxy6"
+coverVideo: "vertical_xbookmarks_fuvyjn"
+coverVideoFormat: vertical
 techStack:
   - name: "Data Source"
     detail: "X API with OAuth 2.0 PKCE authentication"
