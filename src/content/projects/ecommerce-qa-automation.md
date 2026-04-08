@@ -39,7 +39,7 @@ quote: "A small leak will sink a great ship."
 githubUrl: "https://github.com/DiogoAdaoeSilva/ecommerce-qa-automation"
 tags: ["Automation", "QA"]
 featured: true
-order: 3
+order: 4
 ---
 A web dashboard for automating end-to-end QA testing of Shopify stores across three checkout flows: DTC (Direct to Consumer), B2B (Business to Business), and POS (Point of Sale). Test scenarios are defined as JSON configurations and executed by a Playwright engine running headless Chromium, with results stored in PostgreSQL and surfaced through a React dashboard.
 
