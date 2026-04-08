@@ -5,6 +5,7 @@ tagline: "Fetch X bookmarks, classify them with AI, and receive a curated daily 
 category: "Automation Pipeline"
 year: 2026
 coverImage: "hero_imageXbookmarks_nexqgt"
+coverVideo: "xbookmarks_xayxy6"
 techStack:
   - name: "Data Source"
     detail: "X API with OAuth 2.0 PKCE authentication"
@@ -18,15 +19,6 @@ techStack:
   - name: "Automation"
     detail: "GitHub Actions for weekly refresh and daily delivery"
     icon: "schedule"
-mediaSections:
-  - layout: "stacked"
-    items:
-      - publicId: "xbookmarks_xayxy6"
-        type: "video"
-        autoplay: true
-        loop: true
-        label: "Demo"
-        caption: "I now receive a daily selection of 3 of my X (Twitter) bookmarked posts in Telegram"
 keyLearnings:
   - title: "OAuth 2.0 PKCE Flow"
     body: "Implemented the full OAuth 2.0 PKCE flow for X API authentication, with token caching locally and refresh token handling in CI."
@@ -52,4 +44,5 @@ Tools: **Claude Code**, **GitHub Actions**, **Telegram Bot**
 
 <!-- why -->
 
-I bookmark a lot of posts on X (previously Twitter) but rarely go back to read them. This project turns that passive habit into an active one: every day I get a Telegram message with a few bookmarks worth revisiting, already classified and prioritized by an LLM. It's a personal information diet — instead of doom-scrolling, I get a curated nudge with the content that matters most.
+I bookmark a lot of posts on X (previously Twitter) but rarely go back to read them. This project turns that passive habit into an active one: every day I get a Telegram message with 3 bookmarks worth revisiting, already classified and prioritized by an LLM. 
+The great thing is that it works in getting me to actually read my bookmarked posts.
