@@ -23,6 +23,8 @@ const {
   coverImage,
   coverVideo,
   coverVideoFormat,
+  coverVideoAutoplay,
+  coverVideoLoop,
   techStack,
   mediaSections,
   keyLearnings,
@@ -93,8 +95,10 @@ const caseNumber = String(sorted.findIndex((p) => p.id === entry.id) + 1).padSta
             <CloudinaryVideo
               publicId={coverVideo}
               class="w-full"
-              posterMode={true}
-              loop={true}
+              autoplay={coverVideoAutoplay}
+              loop={coverVideoLoop}
+              muted={coverVideoAutoplay}
+              posterMode={!coverVideoAutoplay}
             />
           </div>
           <div class="absolute bottom-8 left-8">
@@ -109,7 +113,10 @@ const caseNumber = String(sorted.findIndex((p) => p.id === entry.id) + 1).padSta
             <CloudinaryVideo
               publicId={coverVideo}
               class="w-full h-full"
-              posterMode={true}
+              autoplay={coverVideoAutoplay}
+              loop={coverVideoLoop}
+              muted={coverVideoAutoplay}
+              posterMode={!coverVideoAutoplay}
             />
           ) : (
             <CloudinaryImage

@@ -43,7 +43,7 @@ quote: "If you would not be forgotten, as soon as you are dead and rotten, eithe
 githubUrl: "https://github.com/DiogoAdaoeSilva/mynotes-chatbot"
 tags: ["RAG"]
 featured: true
-order: 1
+order: 3
 ---
 I built an end-to-end pipeline that digitizes personal handwritten journals and makes them queryable via a custom RAG (Retrieval-Augmented Generation) Chatbot.
 

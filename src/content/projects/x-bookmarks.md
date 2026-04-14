@@ -1,11 +1,13 @@
 ---
 
 title: "Daily X Bookmarks Feed"
-tagline: "Fetch X bookmarks, classify them with AI, and receive a curated daily digest on Telegram."
+tagline: "Fetch your X bookmarks, classify them with AI, and receive a curated daily digest on Telegram."
 category: "Automation Pipeline"
 year: 2026
 coverImage: "hero_imageXbookmarks_nexqgt"
 coverVideo: "vertical_xbookmarks_fuvyjn"
+coverVideoAutoplay: true                                                                                                   
+coverVideoLoop: true 
 coverVideoFormat: vertical
 techStack:
   - name: "Data Source"
@@ -31,7 +33,7 @@ keyLearnings:
     body: "Set up two automated workflows: a weekly refresh that fetches and classifies new bookmarks, and a daily job that delivers them via Telegram."
 tags: ["Automation", "AI"]
 featured: true
-order: 3
+order: 2
 
 ---
 

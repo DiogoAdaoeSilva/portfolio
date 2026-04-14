@@ -29,7 +29,7 @@ keyLearnings:
 quote: "If you have time, don't wait for time."
 githubUrl: "https://github.com/DiogoAdaoeSilva/portfolio"
 tags: ["Web"]
-featured: true
+featured: False
 order: 2
 ---
 This portfolio is itself a vibecoding experiment — a fully custom website built from scratch using Astro 6, Tailwind CSS, and Cloudinary, with Claude Code as the primary development tool.

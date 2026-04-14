@@ -15,6 +15,10 @@ const projects = defineCollection({
     coverVideo: z.string().optional(),
     /** Orientation of the cover video — 'landscape' (16:9) or 'vertical' (9:16 phone recording) */
     coverVideoFormat: z.enum(['landscape', 'vertical']).default('landscape'),
+    /** Autoplay the cover video like a GIF — forces muted, hides the play button */
+    coverVideoAutoplay: z.boolean().default(false),
+    /** Loop the cover video */
+    coverVideoLoop: z.boolean().default(false),
     techStack: z.array(
       z.object({
         /** Section label, e.g. "Architecture" */
