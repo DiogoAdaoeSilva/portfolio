@@ -9,6 +9,8 @@ const isActive = (path: string) => {
   if (path === '/') return currentPath === '/';
   return currentPath.startsWith(path);
 };
+
+const onHome = currentPath === '/';
 ---
 
 <nav class="fixed top-0 w-full z-50 flex justify-between items-center px-8 py-6 bg-[#f9f9f7]">
@@ -20,18 +22,7 @@ const isActive = (path: string) => {
       href="/"
       class:list={[
         "font-medium tracking-tight text-sm transition-colors",
-        isActive('/') && !isActive('/projects')
-          ? "text-on-surface border-b-2 border-primary pb-1"
-          : "text-on-surface-variant hover:text-on-surface",
-      ]}
-    >
-      Home
-    </a>
-    <a
-      href="/projects"
-      class:list={[
-        "font-medium tracking-tight text-sm transition-colors",
-        isActive('/projects')
+        onHome
           ? "text-on-surface border-b-2 border-primary pb-1"
           : "text-on-surface-variant hover:text-on-surface",
       ]}
@@ -77,20 +68,7 @@ const isActive = (path: string) => {
       href="/"
       class:list={[
         "text-4xl font-black tracking-tighter transition-colors",
-        isActive('/') && !isActive('/projects')
-          ? "text-on-surface"
-          : "text-on-surface-variant",
-      ]}
-    >
-      Home
-    </a>
-    <a
-      href="/projects"
-      class:list={[
-        "text-4xl font-black tracking-tighter transition-colors",
-        isActive('/projects')
-          ? "text-on-surface"
-          : "text-on-surface-variant",
+        onHome ? "text-on-surface" : "text-on-surface-variant",
       ]}
     >
       Work

@@ -61,6 +61,7 @@ export default {
         headline: ['Inter', 'sans-serif'],
         body:     ['Inter', 'sans-serif'],
         label:    ['Inter', 'sans-serif'],
+        serif:    ['"Instrument Serif"', 'Georgia', 'serif'],
       },
       borderRadius: {
         DEFAULT: '0px',
