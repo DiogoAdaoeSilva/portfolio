@@ -1,0 +1,360 @@
+---
+/**
+ * QaViz — ambient animated cover for the Ecommerce QA Automation project.
+ * 8-second loop telling the "prompt → generated system" story:
+ *
+ *   0.0s – 1.4s  Prompt:       a natural-language brief types in
+ *   1.4s – 2.0s  Handoff:      prompt collapses, app chrome appears
+ *   2.0s – 3.2s  Assembly:     sidebar, header, metric cards stagger in
+ *   3.2s – 5.4s  Rows populate:test rows fade in one by one with statuses
+ *   5.4s – 6.6s  Live activity:Run All Tests pulses, a row flips to failed,
+ *                              pass-rate ticks down
+ *   6.6s – 7.6s  Hold:         the assembled, slightly-broken dashboard sits
+ *   7.6s – 8.0s  Reset:        fade out for the next loop
+ *
+ * Pure HTML + CSS, no JS.
+ */
+---
+
+<div class="qa-viz">
+  <!-- Scene 1: the prompt -->
+  <div class="prompt">
+    <span class="prompt-line">&gt; Build me an ecommerce QA automation workflow</span>
+    <span class="prompt-line dim">&nbsp;&nbsp;with scenarios, history, and pass/fail tracking</span>
+    <span class="cursor">▎</span>
+  </div>
+
+  <!-- Scene 2: the generated app -->
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">▷ QA</div>
+      <div class="nav-item active">Dashboard</div>
+      <div class="nav-item">Scenarios</div>
+      <div class="nav-item">Test Runs</div>
+    </aside>
+    <main class="main">
+      <header class="head">
+        <span class="title">Dashboard</span>
+        <span class="run-btn">▷ Run All Tests</span>
+      </header>
+      <div class="cards">
+        <div class="metric m1"><span class="metric-label">Scenarios</span><span class="metric-val">3</span></div>
+        <div class="metric m2"><span class="metric-label">Pass rate</span><span class="metric-val pass-rate"><span class="r-high">58%</span><span class="r-low">54%</span></span></div>
+        <div class="metric m3"><span class="metric-label">Last run</span><span class="metric-val">just now</span></div>
+      </div>
+      <div class="rows">
+        <div class="row r1"><span class="row-name">Drop Shipment Order</span><span class="row-type">DTC</span><span class="pill pass">✓ Passed</span></div>
+        <div class="row r2"><span class="row-name">DTC – Standard Order</span><span class="row-type">DTC</span><span class="pill pass">✓ Passed</span></div>
+        <div class="row r3"><span class="row-name">POS – In-Store Pickup</span><span class="row-type">POS</span><span class="pill fail">✕ Failed</span></div>
+        <div class="row r4"><span class="row-name">DTC – Standard Order</span><span class="row-type">DTC</span><span class="pill pass">✓ Passed</span></div>
+        <div class="row r5">
+          <span class="row-name">Drop Shipment Order</span>
+          <span class="row-type">DTC</span>
+          <span class="pill flip">
+            <span class="pill-running">⟳ Running</span>
+            <span class="pill-failed">✕ Failed</span>
+          </span>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<style>
+  .qa-viz {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f2f4f2 0%, #e5e9e6 100%);
+    font-family: 'Inter', sans-serif;
+    color: #2d3432;
+  }
+
+  /* ------------------------------------------------------------- */
+  /* Scene 1 — prompt                                               */
+  /* ------------------------------------------------------------- */
+  .prompt {
+    position: absolute;
+    inset: 0;
+    padding: 14% 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    line-height: 1.45;
+    color: #2d3432;
+    animation: prompt-flow 8s ease-in-out infinite;
+  }
+  .prompt-line {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 0;
+    animation: type 1.0s steps(36, end) forwards;
+  }
+  .prompt-line.dim { color: #5a605e; animation-delay: 0.5s; animation-duration: 0.9s; }
+  .prompt .cursor {
+    display: inline-block;
+    color: #595f66;
+    animation: blink 0.7s steps(2) infinite;
+  }
+  @keyframes type   { from { width: 0; } to { width: 100%; } }
+  @keyframes blink  { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+  @keyframes prompt-flow {
+    0%, 14%  { opacity: 1; transform: translateY(0); }
+    20%      { opacity: 0; transform: translateY(-6px); }
+    100%     { opacity: 0; transform: translateY(-6px); }
+  }
+
+  /* ------------------------------------------------------------- */
+  /* Scene 2 — generated app                                        */
+  /* ------------------------------------------------------------- */
+  .app {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    background: #ffffff;
+    opacity: 0;
+    animation: app-flow 8s ease-in-out infinite;
+  }
+  @keyframes app-flow {
+    0%, 18%   { opacity: 0; transform: scale(0.985); }
+    24%       { opacity: 1; transform: scale(1); }
+    93%       { opacity: 1; transform: scale(1); }
+    97%, 100% { opacity: 0; }
+  }
+
+  .sidebar {
+    width: 26%;
+    background: #f9f9f7;
+    border-right: 1px solid #dee4e0;
+    padding: 8% 6% 6%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 9px;
+    opacity: 0;
+    transform: translateX(-6px);
+    animation: stagger 8s ease-out infinite;
+    animation-delay: 0s;
+  }
+  .brand {
+    font-weight: 700;
+    color: #2d3432;
+    margin-bottom: 8px;
+    font-size: 10px;
+  }
+  .nav-item {
+    color: #5a605e;
+    padding: 3px 6px;
+    border-radius: 3px;
+  }
+  .nav-item.active {
+    background: #ecefec;
+    color: #2d3432;
+    font-weight: 600;
+  }
+
+  .main {
+    flex: 1;
+    padding: 6% 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(4px);
+    animation: stagger 8s ease-out infinite;
+    animation-delay: 0s;
+  }
+  .title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #2d3432;
+  }
+  .run-btn {
+    font-size: 8px;
+    font-weight: 600;
+    color: #ffffff;
+    background: #595f66;
+    padding: 3px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+    animation: run-pulse 8s ease-in-out infinite;
+  }
+  @keyframes run-pulse {
+    0%, 70%   { box-shadow: 0 0 0 0 rgba(89,95,102,0); }
+    78%       { box-shadow: 0 0 0 4px rgba(89,95,102,0.25); transform: scale(1.04); }
+    84%       { box-shadow: 0 0 0 0 rgba(89,95,102,0); transform: scale(1); }
+    100%      { box-shadow: 0 0 0 0 rgba(89,95,102,0); }
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+  }
+  .metric {
+    background: #ffffff;
+    border: 1px solid #ecefec;
+    border-radius: 4px;
+    padding: 5px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    opacity: 0;
+    transform: translateY(4px);
+    animation: stagger 8s ease-out infinite;
+  }
+  .metric-label {
+    font-size: 7px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #5a605e;
+  }
+  .metric-val {
+    font-size: 11px;
+    font-weight: 700;
+    color: #2d3432;
+    position: relative;
+  }
+  .pass-rate {
+    display: inline-grid;
+    grid-template-areas: "stack";
+  }
+  .pass-rate .r-high, .pass-rate .r-low {
+    grid-area: stack;
+  }
+  .pass-rate .r-low {
+    opacity: 0;
+    color: #9f403d;
+    animation: rate-flip 8s ease-in-out infinite;
+  }
+  .pass-rate .r-high {
+    animation: rate-flip-hide 8s ease-in-out infinite;
+  }
+  @keyframes rate-flip      { 0%, 72% { opacity: 0; } 80%, 100% { opacity: 1; } }
+  @keyframes rate-flip-hide { 0%, 72% { opacity: 1; } 80%, 100% { opacity: 0; } }
+
+  .rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 2px;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 8px;
+    padding: 4px 0;
+    border-bottom: 1px solid #f2f4f2;
+    opacity: 0;
+    transform: translateX(-4px);
+    animation: stagger 8s ease-out infinite;
+  }
+  .row-name {
+    flex: 1;
+    color: #2d3432;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .row-type {
+    font-size: 7px;
+    color: #5a605e;
+    padding: 1px 4px;
+    border: 1px solid #dee4e0;
+    border-radius: 2px;
+    letter-spacing: 0.04em;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 8px;
+    font-weight: 600;
+    padding: 2px 5px;
+    border-radius: 3px;
+  }
+  .pill.pass {
+    background: #dcefdc;
+    color: #2f6b3a;
+  }
+  .pill.fail {
+    background: #f7dad8;
+    color: #8a2c2a;
+  }
+
+  /* Row 5 — running → failed flip */
+  .pill.flip {
+    position: relative;
+    padding: 0;
+    background: transparent;
+  }
+  .pill-running, .pill-failed {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 8px;
+    font-weight: 600;
+  }
+  .pill-running {
+    background: #e5e9e6;
+    color: #5a605e;
+    animation: run-show 8s ease-in-out infinite;
+  }
+  .pill-failed {
+    position: absolute;
+    inset: 0;
+    background: #f7dad8;
+    color: #8a2c2a;
+    opacity: 0;
+    animation: fail-show 8s ease-in-out infinite;
+  }
+  @keyframes run-show  { 0%, 64% { opacity: 0; } 68%, 76% { opacity: 1; } 80%, 100% { opacity: 0; } }
+  @keyframes fail-show { 0%, 78% { opacity: 0; } 82%, 100% { opacity: 1; } }
+
+  /* ------------------------------------------------------------- */
+  /* Stagger keyframe — shared, each item sets its own delay        */
+  /* ------------------------------------------------------------- */
+  @keyframes stagger {
+    0%, 20%  { opacity: 0; transform: translate(-4px, 4px); }
+    28%      { opacity: 1; transform: translate(0, 0); }
+    93%      { opacity: 1; transform: translate(0, 0); }
+    97%, 100%{ opacity: 0; }
+  }
+
+  /* Cascading delays — wakes elements up in narrative order */
+  .sidebar  { animation-delay: 0.10s; }
+  .head     { animation-delay: 0.30s; }
+  .m1       { animation-delay: 0.45s; }
+  .m2       { animation-delay: 0.55s; }
+  .m3       { animation-delay: 0.65s; }
+  .r1       { animation-delay: 0.95s; }
+  .r2       { animation-delay: 1.15s; }
+  .r3       { animation-delay: 1.35s; }
+  .r4       { animation-delay: 1.55s; }
+  .r5       { animation-delay: 1.75s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .prompt { display: none; }
+    .app, .sidebar, .head, .metric, .row { animation: none; opacity: 1; transform: none; }
+    .pass-rate .r-low, .pill-running, .pill-failed { animation: none; }
+    .pass-rate .r-low { opacity: 1; }
+    .pass-rate .r-high { opacity: 0; }
+    .pill-running { opacity: 0; }
+    .pill-failed { opacity: 1; }
+  }
+</style>

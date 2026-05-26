@@ -5,6 +5,7 @@ import CloudinaryImage from '../components/CloudinaryImage.astro';
 import CloudinaryVideo from '../components/CloudinaryVideo.astro';
 import FinanceViz from '../components/visualizations/FinanceViz.astro';
 import BookmarksViz from '../components/visualizations/BookmarksViz.astro';
+import QaViz from '../components/visualizations/QaViz.astro';
 
 const allProjects = await getCollection('projects');
 const sorted = allProjects.sort((a, b) => a.data.order - b.data.order);
@@ -107,6 +108,8 @@ allTags.forEach(t => {
                     <FinanceViz />
                   ) : id === 'x-bookmarks' ? (
                     <BookmarksViz />
+                  ) : id === 'ecommerce-qa-automation' ? (
+                    <QaViz />
                   ) : data.coverVideo && data.coverVideoAutoplay ? (
                     <CloudinaryVideo
                       publicId={data.coverVideo}
