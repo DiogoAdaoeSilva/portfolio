@@ -1,0 +1,285 @@
+---
+/**
+ * BookmarksViz — ambient animated cover for the X Bookmarks Digest project.
+ * 8-second loop in three phases:
+ *   0.0s – 3.0s   Chaos:       keywords + handles float in scattered positions
+ *   3.0s – 5.2s   Clustering:  items gravitate toward three anchor handles
+ *   5.2s – 7.6s   Digest:      "Today's themes" card fades in over the clusters
+ *   7.6s – 8.0s   Reset:       everything fades back to nothing for the loop
+ *
+ * Pure HTML + CSS. ~25 items on screen at peak.
+ */
+
+type Item = {
+  text: string;
+  /** position during chaos phase (percentages) */
+  chaos: [number, number];
+  /** if defined, the item gravitates here during the clustering phase */
+  cluster?: [number, number];
+  /** styling */
+  kind: 'keyword' | 'handle' | 'anchor';
+};
+
+// Three cluster anchor handles — these stay put and become gravity wells.
+const anchors: Item[] = [
+  { text: '@karpathy', chaos: [18, 30], cluster: [18, 30], kind: 'anchor' },
+  { text: '@levelsio', chaos: [76, 47], cluster: [76, 47], kind: 'anchor' },
+  { text: '@patrickc', chaos: [44, 80], cluster: [44, 80], kind: 'anchor' },
+];
+
+// Clustered keywords — chaos scattered, then settle around their anchor.
+const clustered: Item[] = [
+  // Cluster A — @karpathy (AI research / agents)
+  { text: 'LLM Workflows',      chaos: [62,  8], cluster: [10, 18], kind: 'keyword' },
+  { text: 'Agent Memory',       chaos: [48, 90], cluster: [26, 16], kind: 'keyword' },
+  { text: 'Context Engineering',chaos: [85, 14], cluster: [ 8, 42], kind: 'keyword' },
+  { text: 'Verification Loops', chaos: [ 5, 64], cluster: [28, 40], kind: 'keyword' },
+  { text: 'Tool Use',           chaos: [70, 70], cluster: [22, 50], kind: 'keyword' },
+  // Cluster B — @levelsio (solo founder / automation)
+  { text: 'Solo Founder',       chaos: [ 8, 12], cluster: [86, 38], kind: 'keyword' },
+  { text: 'Automation',         chaos: [38, 42], cluster: [68, 50], kind: 'keyword' },
+  { text: 'Cron Jobs',          chaos: [22, 86], cluster: [84, 60], kind: 'keyword' },
+  { text: 'Indie Hacking',      chaos: [90, 78], cluster: [66, 62], kind: 'keyword' },
+  { text: '100% Automation',    chaos: [55, 62], cluster: [86, 30], kind: 'keyword' },
+  // Cluster C — @patrickc (AI commerce)
+  { text: 'AI Commerce',        chaos: [12, 88], cluster: [38, 74], kind: 'keyword' },
+  { text: 'Agentic Payments',   chaos: [92, 38], cluster: [54, 86], kind: 'keyword' },
+  { text: 'Workflow Automation',chaos: [ 4, 36], cluster: [30, 88], kind: 'keyword' },
+  { text: 'API-first',          chaos: [78, 22], cluster: [58, 74], kind: 'keyword' },
+];
+
+// "Noise" items — visible during chaos, fade out before the clusters form.
+const noise: Item[] = [
+  { text: '@amasad',             chaos: [60, 50], kind: 'handle' },
+  { text: '@OpenAI',             chaos: [30, 22], kind: 'handle' },
+  { text: 'Claude Code',         chaos: [82, 92], kind: 'keyword' },
+  { text: 'Multi-Agent Systems', chaos: [50, 30], kind: 'keyword' },
+  { text: 'Deep Research',       chaos: [70, 60], kind: 'keyword' },
+  { text: 'Memory Systems',      chaos: [16, 76], kind: 'keyword' },
+  { text: 'Product Craftsmanship', chaos: [38, 16], kind: 'keyword' },
+  { text: 'Prompting',           chaos: [60, 80], kind: 'keyword' },
+];
+
+const items = [...anchors, ...clustered, ...noise];
+---
+
+<div class="bookmarks-viz">
+  <!-- soft ambient halos -->
+  <div class="halo halo-a"></div>
+  <div class="halo halo-b"></div>
+  <div class="halo halo-c"></div>
+
+  <!-- chaos + clustering layer -->
+  <div class="items" data-screen-label="Bookmark cloud">
+    {items.map((item, i) => {
+      const hasCluster = !!item.cluster;
+      const cls = [
+        'item',
+        `item--${item.kind}`,
+        hasCluster ? 'item--clustered' : 'item--noise',
+      ].join(' ');
+      const style = [
+        `--x-chaos: ${item.chaos[0]}%`,
+        `--y-chaos: ${item.chaos[1]}%`,
+        hasCluster ? `--x-cluster: ${item.cluster![0]}%` : '',
+        hasCluster ? `--y-cluster: ${item.cluster![1]}%` : '',
+        `--delay: ${(i % 7) * 0.08}s`,
+      ].filter(Boolean).join('; ');
+      return (
+        <span class={cls} style={style}>{item.text}</span>
+      );
+    })}
+  </div>
+
+  <!-- final digest card -->
+  <div class="digest">
+    <div class="digest-head">Today's themes</div>
+    <ul class="digest-list">
+      <li>AI coding agents</li>
+      <li>Human + AI collaboration</li>
+      <li>Agentic commerce</li>
+      <li>Product craftsmanship</li>
+    </ul>
+  </div>
+</div>
+
+<style>
+  .bookmarks-viz {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(89,95,102,0.12), transparent 55%),
+      radial-gradient(circle at 80% 70%, rgba(89,95,102,0.10), transparent 55%),
+      linear-gradient(135deg, #f2f4f2 0%, #e5e9e6 100%);
+  }
+
+  .halo {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0;
+    animation: halo-pulse 8s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .halo-a { left: 8%;  top: 18%;  background: rgba(89,95,102,0.25); animation-delay: 3.0s; }
+  .halo-b { left: 65%; top: 35%;  background: rgba(89,95,102,0.25); animation-delay: 3.2s; }
+  .halo-c { left: 34%; top: 65%;  background: rgba(89,95,102,0.25); animation-delay: 3.4s; }
+
+  @keyframes halo-pulse {
+    0%, 30%        { opacity: 0; transform: scale(0.85); }
+    45%            { opacity: 0.7; transform: scale(1); }
+    65%            { opacity: 0.7; transform: scale(1); }
+    75%, 100%      { opacity: 0; transform: scale(0.95); }
+  }
+
+  .items {
+    position: absolute;
+    inset: 0;
+  }
+
+  .item {
+    position: absolute;
+    left: var(--x-chaos);
+    top: var(--y-chaos);
+    transform: translate(-50%, -50%);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.78);
+    border: 1px solid rgba(173,179,176,0.55);
+    color: #5a605e;
+    backdrop-filter: blur(4px);
+    white-space: nowrap;
+    opacity: 0;
+    will-change: left, top, opacity;
+  }
+
+  .item--handle {
+    color: #2d3432;
+    font-weight: 600;
+    background: rgba(255,255,255,0.92);
+  }
+
+  .item--anchor {
+    color: #2d3432;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 6px 12px;
+    background: #2d3432;
+    color: #f9f9f7;
+    border-color: #2d3432;
+    box-shadow: 0 8px 24px -10px rgba(45,52,50,0.4);
+  }
+
+  /* — clustered items: chaos → cluster → fade for digest — */
+  .item--clustered {
+    animation: cluster-flow 8s cubic-bezier(.4,.0,.2,1) infinite;
+    animation-delay: var(--delay);
+  }
+  @keyframes cluster-flow {
+    0%   { opacity: 0;   left: var(--x-chaos);   top: var(--y-chaos);   }
+    8%   { opacity: 0.85; left: var(--x-chaos);  top: var(--y-chaos);   }
+    35%  { opacity: 0.85; left: var(--x-chaos);  top: var(--y-chaos);   }
+    52%  { opacity: 1;   left: var(--x-cluster); top: var(--y-cluster); }
+    65%  { opacity: 1;   left: var(--x-cluster); top: var(--y-cluster); }
+    74%  { opacity: 0;   left: var(--x-cluster); top: var(--y-cluster); }
+    100% { opacity: 0; }
+  }
+
+  /* — anchor handles: visible from chaos onward, fade for digest — */
+  .item--anchor {
+    animation: anchor-flow 8s cubic-bezier(.4,.0,.2,1) infinite;
+  }
+  @keyframes anchor-flow {
+    0%   { opacity: 0; left: var(--x-chaos);   top: var(--y-chaos);   }
+    8%   { opacity: 1; left: var(--x-chaos);   top: var(--y-chaos);   }
+    65%  { opacity: 1; left: var(--x-cluster); top: var(--y-cluster); }
+    74%  { opacity: 0; left: var(--x-cluster); top: var(--y-cluster); }
+    100% { opacity: 0; }
+  }
+
+  /* — noise items: only visible during chaos — */
+  .item--noise {
+    animation: noise-flow 8s cubic-bezier(.4,.0,.2,1) infinite;
+    animation-delay: var(--delay);
+  }
+  @keyframes noise-flow {
+    0%   { opacity: 0;   left: var(--x-chaos); top: var(--y-chaos); }
+    8%   { opacity: 0.75;left: var(--x-chaos); top: var(--y-chaos); }
+    30%  { opacity: 0.75;left: calc(var(--x-chaos) + 2%); top: calc(var(--y-chaos) - 1.5%); }
+    42%  { opacity: 0;   left: var(--x-chaos); top: var(--y-chaos); }
+    100% { opacity: 0; }
+  }
+
+  /* — final digest card — */
+  .digest {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, calc(-50% + 8px));
+    width: min(78%, 360px);
+    padding: 20px 24px;
+    background: #f9f9f7;
+    border: 1px solid rgba(173,179,176,0.6);
+    border-radius: 10px;
+    box-shadow: 0 24px 60px -24px rgba(45,52,50,0.35);
+    opacity: 0;
+    animation: digest-flow 8s cubic-bezier(.4,.0,.2,1) infinite;
+  }
+  .digest-head {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #5a605e;
+    margin-bottom: 10px;
+  }
+  .digest-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #2d3432;
+    line-height: 1.55;
+  }
+  .digest-list li {
+    position: relative;
+    padding-left: 14px;
+  }
+  .digest-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #595f66;
+  }
+
+  @keyframes digest-flow {
+    0%, 65%   { opacity: 0; transform: translate(-50%, calc(-50% + 8px)); }
+    78%       { opacity: 1; transform: translate(-50%, -50%); }
+    93%       { opacity: 1; transform: translate(-50%, -50%); }
+    100%      { opacity: 0; transform: translate(-50%, calc(-50% - 4px)); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .item, .digest, .halo { animation: none; }
+    .item--noise { opacity: 0; }
+    .item--clustered, .item--anchor {
+      opacity: 1;
+      left: var(--x-cluster, var(--x-chaos));
+      top: var(--y-cluster, var(--y-chaos));
+    }
+    .digest { opacity: 0; }
+  }
+</style>

@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CloudinaryImage from '../components/CloudinaryImage.astro';
 import CloudinaryVideo from '../components/CloudinaryVideo.astro';
 import FinanceViz from '../components/visualizations/FinanceViz.astro';
+import BookmarksViz from '../components/visualizations/BookmarksViz.astro';
 
 const allProjects = await getCollection('projects');
 const sorted = allProjects.sort((a, b) => a.data.order - b.data.order);
@@ -104,6 +105,8 @@ allTags.forEach(t => {
                 <div class="absolute inset-0">
                   {id === 'personal-finance-reports' ? (
                     <FinanceViz />
+                  ) : id === 'x-bookmarks' ? (
+                    <BookmarksViz />
                   ) : data.coverVideo && data.coverVideoAutoplay ? (
                     <CloudinaryVideo
                       publicId={data.coverVideo}
