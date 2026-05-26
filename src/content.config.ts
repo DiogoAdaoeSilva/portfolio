@@ -9,8 +9,8 @@ const projects = defineCollection({
     /** Display string e.g. "Generative Core" */
     category: z.string(),
     year: z.number(),
-    /** Cloudinary public ID for the cover image */
-    coverImage: z.string(),
+    /** Cloudinary public ID for the cover image (optional) */
+    coverImage: z.string().optional(),
     /** Cloudinary public ID for an optional hero video */
     coverVideo: z.string().optional(),
     /** Orientation of the cover video — 'landscape' (16:9) or 'vertical' (9:16 phone recording) */

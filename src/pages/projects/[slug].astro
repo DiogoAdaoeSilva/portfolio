@@ -88,6 +88,7 @@ const caseNumber = String(sorted.findIndex((p) => p.id === entry.id) + 1).padSta
     </header>
 
     <!-- Hero Media -->
+    {(coverVideo || coverImage) && (
     <section class="mb-32">
       {coverVideo && coverVideoFormat === 'vertical' ? (
         <div class="bg-surface-container py-16 flex justify-center relative">
@@ -134,6 +135,7 @@ const caseNumber = String(sorted.findIndex((p) => p.id === entry.id) + 1).padSta
         </div>
       )}
     </section>
+    )}
 
     <!-- The What & The Why -->
     <section class="mb-32">
