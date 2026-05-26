@@ -1,9 +1,8 @@
 ---
-title: "Ecommerce QA Automation"
-tagline: "A Playwright dashboard that automates Shopify checkout flows across B2B, B2C, and POS channels — replacing slow manual end-to-end testing. Work in progress."
+title: "QA Automation for a Shopify store"
+tagline: "QA workflow, created in one shot with Replit Agent."
 category: "QA Automation"
 year: 2026
-coverImage: "ca247f"
 techStack:
   - name: "Browser Automation"
     detail: "Playwright (headless Chromium)"
