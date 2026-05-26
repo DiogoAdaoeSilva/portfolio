@@ -1,0 +1,148 @@
+---
+/**
+ * FinanceViz — ambient animated cover for the Family Finance Report project.
+ * 8-second loop: chart bars pulse, trend line draws across, transaction
+ * numbers drift in. Pure SVG + CSS, ~2 KB. Fits any container via
+ * preserveAspectRatio="none" — anchor inside an `absolute inset-0` wrapper.
+ */
+---
+
+<div class="finance-viz">
+  <svg viewBox="0 0 600 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <!-- subtle grid -->
+    <g class="grid-bg">
+      <line x1="0" y1="50"  x2="600" y2="50"  />
+      <line x1="0" y1="100" x2="600" y2="100" />
+      <line x1="0" y1="150" x2="600" y2="150" />
+      <line x1="0" y1="200" x2="600" y2="200" />
+    </g>
+
+    <!-- bars -->
+    <g class="bars">
+      <rect class="bar" x="60"  y="60" width="36" height="170" />
+      <rect class="bar" x="120" y="60" width="36" height="170" />
+      <rect class="bar" x="180" y="60" width="36" height="170" />
+      <rect class="bar" x="240" y="60" width="36" height="170" />
+      <rect class="bar" x="300" y="60" width="36" height="170" />
+      <rect class="bar" x="360" y="60" width="36" height="170" />
+      <rect class="bar" x="420" y="60" width="36" height="170" />
+      <rect class="bar" x="480" y="60" width="36" height="170" />
+    </g>
+
+    <!-- trend line -->
+    <path class="trend" d="M 40 180 C 120 150, 180 200, 240 130 S 360 90, 420 110 S 540 70, 580 80" />
+
+    <!-- drifting transaction labels -->
+    <g class="labels">
+      <g class="lbl">
+        <rect x="60"  y="22" width="92" height="22" rx="4" />
+        <text x="106" y="37">+ € 1,240.00</text>
+      </g>
+      <g class="lbl">
+        <rect x="240" y="200" width="72" height="22" rx="4" />
+        <text x="276" y="215">€ 84.20</text>
+      </g>
+      <g class="lbl">
+        <rect x="408" y="22" width="84" height="22" rx="4" />
+        <text x="450" y="37">+ € 312.55</text>
+      </g>
+      <g class="lbl">
+        <rect x="478" y="200" width="68" height="22" rx="4" />
+        <text x="512" y="215">€ 56.10</text>
+      </g>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .finance-viz {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #f2f4f2 0%, #e5e9e6 100%);
+    overflow: hidden;
+  }
+  .finance-viz svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .grid-bg line {
+    stroke: #2d3432;
+    stroke-width: 1;
+    opacity: 0.06;
+  }
+
+  .bar {
+    fill: #595f66;
+    transform-origin: bottom;
+    transform-box: fill-box;
+    animation: bar-pulse 8s ease-in-out infinite;
+  }
+  .bars .bar:nth-child(1) { animation-delay: 0s;    fill: #4d5359; }
+  .bars .bar:nth-child(2) { animation-delay: 0.3s;  }
+  .bars .bar:nth-child(3) { animation-delay: 0.6s;  fill: #4d5359; }
+  .bars .bar:nth-child(4) { animation-delay: 0.9s;  }
+  .bars .bar:nth-child(5) { animation-delay: 1.2s;  fill: #4d5359; }
+  .bars .bar:nth-child(6) { animation-delay: 1.5s;  }
+  .bars .bar:nth-child(7) { animation-delay: 1.8s;  fill: #4d5359; }
+  .bars .bar:nth-child(8) { animation-delay: 2.1s;  }
+
+  @keyframes bar-pulse {
+    0%, 100% { transform: scaleY(0.35); }
+    50%      { transform: scaleY(1); }
+  }
+
+  .trend {
+    fill: none;
+    stroke: #2d3432;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-dasharray: 900;
+    stroke-dashoffset: 900;
+    animation: trend-draw 8s ease-in-out infinite;
+  }
+
+  @keyframes trend-draw {
+    0%   { stroke-dashoffset: 900; }
+    45%  { stroke-dashoffset: 0; }
+    90%  { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 0; }
+  }
+
+  .lbl {
+    opacity: 0;
+    animation: lbl-drift 8s ease-in-out infinite;
+  }
+  .lbl rect {
+    fill: #ffffff;
+    stroke: #adb3b0;
+    stroke-width: 1;
+  }
+  .lbl text {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    fill: #2d3432;
+    text-anchor: middle;
+  }
+  .labels .lbl:nth-child(1) { animation-delay: 0.4s; }
+  .labels .lbl:nth-child(2) { animation-delay: 1.6s; }
+  .labels .lbl:nth-child(3) { animation-delay: 3.0s; }
+  .labels .lbl:nth-child(4) { animation-delay: 4.6s; }
+
+  @keyframes lbl-drift {
+    0%   { opacity: 0; transform: translateY(6px); }
+    15%  { opacity: 1; transform: translateY(0); }
+    55%  { opacity: 1; transform: translateY(0); }
+    75%  { opacity: 0; transform: translateY(-6px); }
+    100% { opacity: 0; transform: translateY(-6px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bar, .trend, .lbl { animation: none; }
+    .trend { stroke-dashoffset: 0; }
+    .lbl { opacity: 1; }
+  }
+</style>

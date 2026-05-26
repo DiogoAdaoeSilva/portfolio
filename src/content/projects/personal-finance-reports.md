@@ -1,5 +1,5 @@
 ---
-title: "Automating My Family Finance Report"
+title: "Family Finance Report"
 tagline: "Automated monthly finance report for a multi-bank household — parses statements, enriches transactions with AI, and delivers a Google Slides deck and email with a single command."
 category: "Automation"
 year: 2026

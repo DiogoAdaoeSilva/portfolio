@@ -1,5 +1,5 @@
 ---
-title: "Vibe Coding Portfolio"
+title: "Project Website"
 tagline: "A portfolio website built with Astro 6 and Claude Code — converting HTML design mockups into a fully functional, content-managed site."
 category: "Web Development"
 year: 2026
