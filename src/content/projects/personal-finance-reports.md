@@ -30,7 +30,7 @@ keyLearnings:
     body: "Apps Script's time-driven trigger polls the Inbox every 5 minutes rather than reacting to a Drive onChange event. onChange is unavailable for standalone scripts, so polling was the only viable option — and it keeps the architecture simple with no webhook plumbing."
   - title: "Archiving report_data.json for Future Use"
     body: "The structured JSON output of each parsing run is archived rather than deleted. This preserves a queryable history of every month's transactions — useful for future agent layers or manual audits without re-parsing the original statements."
-quote: "The best financial system is the one you actually use."
+quote: ""
 tags: ["Automation", "Python", "AI", "Finance"]
 featured: true
 order: 1
