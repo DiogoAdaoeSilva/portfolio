@@ -1,25 +1,25 @@
 ---
 title: "FrameCal"
-tagline: "A wall-mounted ambient calendar designed for glanceability, shared planning, and calm interaction."
+tagline: "E-ink inspired calendar designed for glanceability of shared family planning"
 category: "Ambient Display"
 year: 2026
-coverImage: "FrameCal_image"
+coverImage: "IMG_6062_wtoez8"
 techStack:
   - name: "App Framework"
     detail: "Next.js App Router + React + TypeScript"
     icon: "web"
-  - name: "Styling"
-    detail: "Tailwind CSS"
-    icon: "palette"
   - name: "Calendar Engine"
     detail: "ical.js + rrule for iCal parsing and recurring events"
     icon: "event_repeat"
-  - name: "Runtime Target"
+  - name: "Raspeberry Pi"
     detail: "Raspberry Pi running Chromium in kiosk mode against a Samsung Frame TV"
     icon: "tv"
-  - name: "Storage"
-    detail: "Local JSON files for settings and event cache"
-    icon: "folder"
+mediaSections:
+  - layout: "stacked"
+    items:
+      - publicId: "IMG_6061_itz0dj"
+        label: ""
+        caption: "Calendar in Light Mode"
 keyLearnings:
   - title: "Separating display and control"
     body: "The TV interface was designed for passive viewing from a distance, while configuration lives in a separate admin PWA optimized for phones and laptops."
@@ -33,11 +33,11 @@ tags: ["PWA ", "Raspberry Pi"]
 featured: true
 order: 5
 ---
-A wall display for families and focused people. Built with Raspberry Pi, synced with iCloud Calendar.
+A wall display for families and focused people. Built with Raspberry Pi, synced with multiple family calendars.
 
-The display supports light and dark themes, localized UI copy in English, Italian, and Portuguese, and multiple calendar sources with per-calendar visibility toggles, controlled through a PWA on my iPhone.
+The display supports light and dark themes, localized UI copy in English, Italian, and Portuguese (the languages spoken here at home), and multiple calendar sources with per-calendar visibility toggles, controlled through a PWA on my iPhone.
 
-A manual sync endpoint and display-side polling keep events fresh without ever sending the data off the device.
+New events sync immediately with the calendar display.
 
 In days with more than 3 events, there is a slider to make all events slowly appear.
 
