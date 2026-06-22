@@ -15,6 +15,10 @@ interface Props {
   width?: number;
   class?: string;
   grayscale?: boolean;
+  /** Quality: 'auto' (default) for photos, 'best' for crisp UI/text screenshots. */
+  quality?: 'auto' | 'best';
+  /** Apply a light unsharp mask — helps screenshots read crisply. */
+  sharpen?: boolean;
   /** Extra Cloudinary transform string appended after auto transforms, e.g. "ar_16:9,c_fill" */
   transforms?: string;
 }
@@ -25,6 +29,8 @@ const {
   width = 1200,
   class: className,
   grayscale = false,
+  quality = 'auto',
+  sharpen = false,
   transforms: extraTransforms = '',
 } = Astro.props;
 
@@ -34,8 +40,10 @@ function buildUrl(publicId: string, w: number): string {
   if (!cloudName) return '';
   const parts = [
     `w_${w}`,
+    'c_limit', // never upscale past the source — upscaling is what makes screenshots blurry
     'f_auto',
-    'q_auto',
+    quality === 'best' ? 'q_auto:best' : 'q_auto',
+    sharpen ? 'e_sharpen:60' : '',
     grayscale ? 'e_grayscale' : '',
     extraTransforms,
   ].filter(Boolean).join(',');

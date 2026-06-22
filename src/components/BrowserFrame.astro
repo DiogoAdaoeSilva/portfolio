@@ -1,0 +1,47 @@
+---
+/**
+ * BrowserFrame — shows a website screenshot inside faux browser chrome.
+ * Full color, un-cropped (image keeps its natural aspect), and delivered
+ * sharp via CloudinaryImage's `quality="best"` + `sharpen`. The whole frame
+ * links to the live site. Upload the screenshot at 2x for best results.
+ */
+import CloudinaryImage from './CloudinaryImage.astro';
+
+interface Props {
+  publicId: string;
+  url: string;
+  alt: string;
+  /** Delivery width; the 2x srcset doubles this. Default 1600. */
+  width?: number;
+}
+
+const { publicId, url, alt, width = 1600 } = Astro.props;
+const displayUrl = url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+---
+
+<figure class="m-0 rounded-xl overflow-hidden border border-outline-variant/40 bg-surface-container-lowest shadow-[0_30px_70px_-30px_rgba(45,52,50,0.4)]">
+  <!-- chrome -->
+  <div class="flex items-center gap-3 px-4 py-3 bg-surface-container-high border-b border-outline-variant/30">
+    <div class="flex gap-2 flex-shrink-0">
+      <span class="w-3 h-3 rounded-full bg-outline-variant"></span>
+      <span class="w-3 h-3 rounded-full bg-outline-variant"></span>
+      <span class="w-3 h-3 rounded-full bg-outline-variant"></span>
+    </div>
+    <div class="flex-1 flex justify-center min-w-0">
+      <span class="inline-flex items-center max-w-full truncate px-3 py-1 rounded-md bg-surface border border-outline-variant/30 text-[11px] tracking-wide text-on-surface-variant">
+        {displayUrl}
+      </span>
+    </div>
+  </div>
+  <!-- screenshot -->
+  <a href={url} target="_blank" rel="noopener noreferrer" class="block">
+    <CloudinaryImage
+      publicId={publicId}
+      alt={alt}
+      width={width}
+      quality="best"
+      sharpen
+      class="w-full h-auto block"
+    />
+  </a>
+</figure>

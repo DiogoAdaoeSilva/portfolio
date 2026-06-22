@@ -13,6 +13,13 @@ const projects = defineCollection({
     coverImage: z.string().optional(),
     /** Cloudinary public ID for an optional hero video */
     coverVideo: z.string().optional(),
+    /** Show the hero as a full-color browser-framed screenshot of a live site */
+    browserShot: z.object({
+      /** Cloudinary public ID of the (2x) screenshot */
+      publicId: z.string(),
+      /** URL shown in the address bar (and linked to) */
+      url: z.string().url(),
+    }).optional(),
     /** Orientation of the cover video — 'landscape' (16:9) or 'vertical' (9:16 phone recording) */
     coverVideoFormat: z.enum(['landscape', 'vertical']).default('landscape'),
     /** Autoplay the cover video like a GIF — forces muted, hides the play button */

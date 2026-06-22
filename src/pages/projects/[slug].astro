@@ -4,6 +4,7 @@ import ProjectLayout from '../../layouts/ProjectLayout.astro';
 import CloudinaryImage from '../../components/CloudinaryImage.astro';
 import CloudinaryVideo from '../../components/CloudinaryVideo.astro';
 import ProjectMediaSection from '../../components/ProjectMediaSection.astro';
+import BrowserFrame from '../../components/BrowserFrame.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -25,6 +26,7 @@ const {
   coverVideoFormat,
   coverVideoAutoplay,
   coverVideoLoop,
+  browserShot,
   techStack,
   mediaSections,
   keyLearnings,
@@ -88,9 +90,11 @@ const caseNumber = String(sorted.findIndex((p) => p.id === entry.id) + 1).padSta
     </header>
 
     <!-- Hero Media -->
-    {(coverVideo || coverImage) && (
+    {(browserShot || coverVideo || coverImage) && (
     <section class="mb-32">
-      {coverVideo && coverVideoFormat === 'vertical' ? (
+      {browserShot ? (
+        <BrowserFrame publicId={browserShot.publicId} url={browserShot.url} alt={title} />
+      ) : coverVideo && coverVideoFormat === 'vertical' ? (
         <div class="bg-surface-container py-16 flex justify-center relative">
           <div class="w-full max-w-[260px] sm:max-w-[300px] rounded-[2rem] overflow-hidden border-[6px] border-surface-container-high shadow-2xl">
             <CloudinaryVideo
@@ -145,7 +149,7 @@ const caseNumber = String(sorted.findIndex((p) => p.id === entry.id) + 1).padSta
             <span class="w-8 h-[1px] bg-primary"></span>
             The What
           </h2>
-          <div class="pl-11 text-base text-on-surface-variant leading-relaxed space-y-6" set:html={whatHtml} />
+          <div class="prose-body pl-11 text-base text-on-surface-variant leading-relaxed space-y-6" set:html={whatHtml} />
         </div>
 
         {(quote || whyHtml) && (
@@ -161,7 +165,7 @@ const caseNumber = String(sorted.findIndex((p) => p.id === entry.id) + 1).padSta
                 </blockquote>
               )}
               {whyHtml && (
-                <div class="text-base text-on-surface-variant leading-relaxed space-y-6" set:html={whyHtml} />
+                <div class="prose-body text-base text-on-surface-variant leading-relaxed space-y-6" set:html={whyHtml} />
               )}
             </div>
           </div>
@@ -282,3 +286,21 @@ const caseNumber = String(sorted.findIndex((p) => p.id === entry.id) + 1).padSta
 
   </main>
 </ProjectLayout>
+
+<style>
+  /* Inline links inside the markdown-injected What / Why copy.
+     set:html content isn't scoped, so target it with :global(). */
+  .prose-body :global(a) {
+    color: #2d3432;
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: #595f66;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 3px;
+    transition: color 0.2s, text-decoration-color 0.2s;
+  }
+  .prose-body :global(a:hover) {
+    color: #595f66;
+    text-decoration-color: #2d3432;
+  }
+</style>
