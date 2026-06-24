@@ -41,6 +41,8 @@ The parser reads PDFs, XLSX, and XLS files — one format per bank — validates
 
 Possible next steps are automating file ingestion using open banking APIs and adding an agent layer to answer natural-language questions.
 
+This tool has proven valuable and I use it every month. Interestingly, I have seen this Personal Finance type of product being launched by <a href="https://openai.com/index/personal-finance-chatgpt/" target="_blank" rel="noopener noreferrer">ChatGPT</a> and <a href="https://www.perplexity.ai/hub/blog/plaid-integration-provides-full-view-of-personal-finances" target="_blank" rel="noopener noreferrer">Perplexity</a> after I had mine in use.
+
 Tools: **Claude Code**, **Google AI Studio**, **Google Stitch**
 
 <!-- why -->
