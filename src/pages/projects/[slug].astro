@@ -63,7 +63,10 @@ const whyHtml  = toHtml(whyRaw);
 // Case study number based on order
 const allProjects = await getCollection('projects');
 const sorted = allProjects.sort((a, b) => a.data.order - b.data.order);
-const caseNumber = String(sorted.findIndex((p) => p.id === entry.id) + 1).padStart(2, '0');
+const currentProjectIndex = sorted.findIndex((p) => p.id === entry.id);
+const caseNumber = String(currentProjectIndex + 1).padStart(2, '0');
+const previousProject = sorted[currentProjectIndex - 1];
+const nextProject = sorted[currentProjectIndex + 1];
 const cloudName = import.meta.env.PUBLIC_CLOUDINARY_CLOUD_NAME;
 const socialImageId = browserShot?.publicId ?? coverImage;
 const socialImage = cloudName && socialImageId
@@ -104,7 +107,7 @@ const structuredData = {
 ---
 
 <ProjectLayout title={title} tagline={tagline} image={socialImage} structuredData={structuredData}>
-  <main class="pt-32 pb-24 px-8 max-w-7xl mx-auto">
+  <main class="pt-32 pb-24 px-5 sm:px-8 max-w-7xl mx-auto">
 
     <!-- Hero: Editorial Masthead -->
     <header class="mb-24">
@@ -189,16 +192,16 @@ const structuredData = {
             <span class="w-8 h-[1px] bg-primary"></span>
             The What
           </h2>
-          <div class="prose-body pl-11 text-base text-on-surface-variant leading-relaxed space-y-6" set:html={whatHtml} />
+          <div class="prose-body md:pl-11 text-base text-on-surface-variant leading-relaxed space-y-6" set:html={whatHtml} />
         </div>
 
         {(quote || whyHtml) && (
-          <div class="md:col-start-7 md:col-span-6 bg-surface-container-low p-12">
+          <div class="md:col-start-7 md:col-span-6 bg-surface-container-low p-6 sm:p-8 md:p-12">
             <h2 class="text-2xl font-bold tracking-tight mb-8 flex items-center gap-3">
               <span class="w-8 h-[1px] bg-primary"></span>
               The Why
             </h2>
-            <div class="pl-11">
+            <div class="md:pl-11">
               {quote && (
                 <blockquote class="text-3xl font-medium tracking-tight text-on-surface mb-8 italic">
                   "{quote}"
@@ -282,6 +285,23 @@ const structuredData = {
           </div>
         </div>
       </section>
+    )}
+
+    {(previousProject || nextProject) && (
+      <nav class="mb-20 flex flex-col sm:flex-row gap-4 justify-between border-t border-outline-variant/15 pt-8" aria-label="More case studies">
+        {previousProject ? (
+          <a href={`/projects/${previousProject.id}/`} class="group flex-1 border border-outline-variant/30 p-5 hover:border-primary transition-colors">
+            <span class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Previous case study</span>
+            <span class="font-bold text-on-surface group-hover:text-primary transition-colors">← {previousProject.data.title}</span>
+          </a>
+        ) : <div class="hidden sm:block flex-1" aria-hidden="true"></div>}
+        {nextProject ? (
+          <a href={`/projects/${nextProject.id}/`} class="group flex-1 border border-outline-variant/30 p-5 text-right hover:border-primary transition-colors">
+            <span class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Next case study</span>
+            <span class="font-bold text-on-surface group-hover:text-primary transition-colors">{nextProject.data.title} →</span>
+          </a>
+        ) : <div class="hidden sm:block flex-1" aria-hidden="true"></div>}
+      </nav>
     )}
 
     <!-- CTA -->
