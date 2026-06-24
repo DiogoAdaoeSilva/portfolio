@@ -20,6 +20,9 @@ const projects = sorted.map((p, i) => ({
   ...p,
   size: SIZE_SCHEDULE[i] ?? 'small',
 }));
+const firstImageProjectId = projects.find((project) => (
+  Boolean(project.data.coverImage) && !project.data.coverVideoAutoplay
+))?.id;
 
 const allTags = [...new Set(sorted.flatMap(p => p.data.tags ?? []))].sort();
 const categories = ['All', ...allTags];
@@ -28,9 +31,26 @@ allTags.forEach(t => {
   tagCounts[t] = sorted.filter(p => (p.data.tags ?? []).includes(t)).length;
 });
 
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Diogo Adão e Silva',
+  url: new URL('/', Astro.site).href,
+  jobTitle: 'Product Manager',
+  email: 'mailto:diogofcruz@gmail.com',
+  sameAs: [
+    'https://github.com/DiogoAdaoeSilva',
+    'https://www.linkedin.com/in/diogoadaoesilva/',
+  ],
+};
+
 ---
 
-<BaseLayout title="Selected Work">
+<BaseLayout
+  title="Selected Work"
+  description="Diogo Adão e Silva is a Product Manager building AI-native product experiments in automation, operational systems, and human + AI collaboration."
+  structuredData={personSchema}
+>
   <main id="work" class="pt-28 pb-0">
 
     <!-- Page header -->
@@ -124,6 +144,8 @@ allTags.forEach(t => {
                       publicId={data.coverImage}
                       alt={data.title}
                       width={size === 'feature' ? 1800 : size === 'large' ? 1400 : 900}
+                      loading={id === firstImageProjectId ? 'eager' : 'lazy'}
+                      fetchpriority={id === firstImageProjectId ? 'high' : 'auto'}
                       class="w-full h-full object-cover transition duration-700 group-hover:scale-[1.02]"
                     />
                   )}

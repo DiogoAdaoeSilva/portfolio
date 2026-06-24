@@ -1,9 +1,26 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CloudinaryImage from '../components/CloudinaryImage.astro';
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Diogo Adão e Silva',
+  url: new URL('/', Astro.site).href,
+  jobTitle: 'Product Manager',
+  email: 'mailto:diogofcruz@gmail.com',
+  sameAs: [
+    'https://github.com/DiogoAdaoeSilva',
+    'https://www.linkedin.com/in/diogoadaoesilva/',
+  ],
+};
 ---
 
-<BaseLayout title="About — VIBE" description="About the developer behind VIBE Coding Portfolio.">
+<BaseLayout
+  title="About"
+  description="Meet Diogo Adão e Silva, a Milan-based Product Manager focused on AI-native workflows, operational systems, automation, and ecommerce technology."
+  structuredData={personSchema}
+>
   <main class="pt-28 pb-0">
 
     <!-- Page header -->

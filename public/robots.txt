@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://diogoasc.com/sitemap-index.xml
