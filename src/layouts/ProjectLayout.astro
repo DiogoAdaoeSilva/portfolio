@@ -5,11 +5,12 @@ interface Props {
   title: string;
   tagline?: string;
   image?: string;
+  structuredData?: Record<string, unknown>;
 }
 
-const { title, tagline, image } = Astro.props;
+const { title, tagline, image, structuredData } = Astro.props;
 ---
 
-<BaseLayout title={title} description={tagline} image={image}>
+<BaseLayout title={title} description={tagline} image={image} structuredData={structuredData}>
   <slot />
 </BaseLayout>

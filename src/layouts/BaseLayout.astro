@@ -8,12 +8,14 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  structuredData?: Record<string, unknown>;
 }
 
 const {
   title,
   description = 'Diogo Adão e Silva is a Product Manager building AI-native product experiments in automation, operational systems, and human + AI collaboration.',
   image,
+  structuredData,
 } = Astro.props;
 
 const pageTitle = title.includes('Diogo Adão e Silva')
@@ -43,6 +45,7 @@ const socialImage = new URL(image ?? '/og-default.png', Astro.site).href;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
     <title>{pageTitle}</title>
+    {structuredData && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
