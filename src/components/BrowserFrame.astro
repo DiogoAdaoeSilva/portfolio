@@ -13,9 +13,10 @@ interface Props {
   alt: string;
   /** Delivery width; the 2x srcset doubles this. Default 1600. */
   width?: number;
+  height?: number;
 }
 
-const { publicId, url, alt, width = 1600 } = Astro.props;
+const { publicId, url, alt, width = 1600, height = 900 } = Astro.props;
 const displayUrl = url.replace(/^https?:\/\//, '').replace(/\/$/, '');
 ---
 
@@ -39,6 +40,9 @@ const displayUrl = url.replace(/^https?:\/\//, '').replace(/\/$/, '');
       publicId={publicId}
       alt={alt}
       width={width}
+      height={height}
+      loading="eager"
+      fetchpriority="high"
       quality="best"
       sharpen
       class="w-full h-auto block"

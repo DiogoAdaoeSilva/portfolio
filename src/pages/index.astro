@@ -20,6 +20,9 @@ const projects = sorted.map((p, i) => ({
   ...p,
   size: SIZE_SCHEDULE[i] ?? 'small',
 }));
+const firstImageProjectId = projects.find((project) => (
+  Boolean(project.data.coverImage) && !project.data.coverVideoAutoplay
+))?.id;
 
 const allTags = [...new Set(sorted.flatMap(p => p.data.tags ?? []))].sort();
 const categories = ['All', ...allTags];
@@ -141,6 +144,8 @@ const personSchema = {
                       publicId={data.coverImage}
                       alt={data.title}
                       width={size === 'feature' ? 1800 : size === 'large' ? 1400 : 900}
+                      loading={id === firstImageProjectId ? 'eager' : 'lazy'}
+                      fetchpriority={id === firstImageProjectId ? 'high' : 'auto'}
                       class="w-full h-full object-cover transition duration-700 group-hover:scale-[1.02]"
                     />
                   )}

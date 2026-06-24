@@ -13,7 +13,10 @@ interface Props {
   publicId: string;
   alt: string;
   width?: number;
+  height?: number;
   class?: string;
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'low' | 'auto';
   grayscale?: boolean;
   /** Quality: 'auto' (default) for photos, 'best' for crisp UI/text screenshots. */
   quality?: 'auto' | 'best';
@@ -27,7 +30,10 @@ const {
   publicId,
   alt,
   width = 1200,
+  height = Math.round(width * 0.75),
   class: className,
+  loading = 'lazy',
+  fetchpriority = 'auto',
   grayscale = false,
   quality = 'auto',
   sharpen = false,
@@ -60,7 +66,10 @@ const hasSrc = Boolean(cloudName);
     src={src}
     srcset={`${src} 1x, ${src2x} 2x`}
     alt={alt}
-    loading="lazy"
+    width={width}
+    height={height}
+    loading={loading}
+    fetchpriority={fetchpriority}
     decoding="async"
     class={className}
   />
