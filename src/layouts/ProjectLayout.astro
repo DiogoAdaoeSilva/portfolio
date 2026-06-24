@@ -4,11 +4,12 @@ import BaseLayout from './BaseLayout.astro';
 interface Props {
   title: string;
   tagline?: string;
+  image?: string;
 }
 
-const { title, tagline } = Astro.props;
+const { title, tagline, image } = Astro.props;
 ---
 
-<BaseLayout title={`${title} — VIBE`} description={tagline}>
+<BaseLayout title={title} description={tagline} image={image}>
   <slot />
 </BaseLayout>

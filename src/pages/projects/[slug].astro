@@ -64,9 +64,14 @@ const whyHtml  = toHtml(whyRaw);
 const allProjects = await getCollection('projects');
 const sorted = allProjects.sort((a, b) => a.data.order - b.data.order);
 const caseNumber = String(sorted.findIndex((p) => p.id === entry.id) + 1).padStart(2, '0');
+const cloudName = import.meta.env.PUBLIC_CLOUDINARY_CLOUD_NAME;
+const socialImageId = browserShot?.publicId ?? coverImage;
+const socialImage = cloudName && socialImageId
+  ? `https://res.cloudinary.com/${cloudName}/image/upload/c_fill,w_1200,h_630,f_auto,q_auto/${socialImageId}`
+  : undefined;
 ---
 
-<ProjectLayout title={title} tagline={tagline}>
+<ProjectLayout title={title} tagline={tagline} image={socialImage}>
   <main class="pt-32 pb-24 px-8 max-w-7xl mx-auto">
 
     <!-- Hero: Editorial Masthead -->
