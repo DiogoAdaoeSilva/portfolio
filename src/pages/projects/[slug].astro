@@ -5,6 +5,7 @@ import CloudinaryImage from '../../components/CloudinaryImage.astro';
 import CloudinaryVideo from '../../components/CloudinaryVideo.astro';
 import ProjectMediaSection from '../../components/ProjectMediaSection.astro';
 import BrowserFrame from '../../components/BrowserFrame.astro';
+import VoiceViz from '../../components/visualizations/VoiceViz.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -130,9 +131,16 @@ const structuredData = {
     </header>
 
     <!-- Hero Media -->
-    {(browserShot || coverVideo || coverImage) && (
+    {(browserShot || coverVideo || coverImage || entry.id === 'ask-diogo') && (
     <section class="mb-32">
-      {browserShot ? (
+      {entry.id === 'ask-diogo' ? (
+        <a href={liveUrl} target="_blank" rel="noopener noreferrer" class="block relative aspect-[16/9] md:aspect-[24/10] w-full overflow-hidden border border-outline-variant/30" aria-label="Talk to Ask Diogo at askdiogo.com">
+          <VoiceViz />
+          <span class="absolute bottom-6 left-6 text-[10px] uppercase tracking-widest text-on-surface-variant">
+            {category} // {year} · askdiogo.com ↗
+          </span>
+        </a>
+      ) : browserShot ? (
         <BrowserFrame publicId={browserShot.publicId} url={browserShot.url} alt={title} />
       ) : coverVideo && coverVideoFormat === 'vertical' ? (
         <div class="bg-surface-container py-16 flex justify-center relative">

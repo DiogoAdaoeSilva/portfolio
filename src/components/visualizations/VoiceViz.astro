@@ -1,0 +1,247 @@
+---
+/**
+ * VoiceViz — ambient animated cover for the Ask Diogo voice agent.
+ * 9-second loop of a single call exchange, echoing the orb on askdiogo.com:
+ *
+ *   0.0s – 0.8s  Idle:     orb breathes, transcript empty
+ *   0.8s – 3.2s  Listen:   visitor's question types in, orb dims and listens
+ *   3.2s – 3.8s  Think:    orb gathers (end-of-turn → LLM)
+ *   3.8s – 7.8s  Speak:    agent's answer reveals, orb pulses, waveform runs
+ *   7.8s – 9.0s  Reset:    transcript fades for the next loop
+ *
+ * Pure HTML + CSS, no JS. On narrow cards the transcript hides and the
+ * orb + waveform carry the story alone.
+ */
+const BARS = 14;
+---
+
+<div class="voice-viz">
+  <div class="stage">
+    <div class="orb-wrap">
+      <div class="halo"></div>
+      <div class="orb"></div>
+      <div class="wave" aria-hidden="true">
+        {Array.from({ length: BARS }, (_, i) => (
+          <span style={`--i:${i}`}></span>
+        ))}
+      </div>
+    </div>
+
+    <div class="transcript" aria-hidden="true">
+      <div class="turn you">
+        <span class="who">Visitor</span>
+        <span class="line"><span class="typed">Hi! Who am I talking to?</span></span>
+      </div>
+      <div class="turn agent">
+        <span class="who"><span class="live"></span>Diogo · AI agent</span>
+        <span class="line"><span class="spoken">Hi, I'm Diogo's voice agent. Ask me anything about his product work.</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .voice-viz {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    container-type: size;
+    background:
+      radial-gradient(60% 90% at 28% 50%, #eef0fb 0%, transparent 70%),
+      linear-gradient(135deg, #f7f7f5 0%, #eceeeb 100%);
+    font-family: 'Inter', sans-serif;
+    color: #2d3432;
+  }
+
+  .stage {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 44% 1fr;
+    align-items: center;
+    padding: 0 8% 0 4%;
+  }
+
+  /* ------------------------------------------------------------- */
+  /* Orb                                                            */
+  /* ------------------------------------------------------------- */
+  .orb-wrap {
+    position: relative;
+    justify-self: center;
+    width: 46cqh;
+    aspect-ratio: 1;
+  }
+  .orb {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 18%, #4f63e8 0%, #7b8cf0 32%, #c9cff8 62%, #eef0fd 82%);
+    box-shadow:
+      inset 0 -10px 30px rgba(255,255,255,0.7),
+      0 20px 50px -18px rgba(79, 99, 232, 0.45);
+    animation: orb 9s ease-in-out infinite;
+  }
+  .halo {
+    position: absolute;
+    inset: -22%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(123,140,240,0.28) 0%, transparent 65%);
+    animation: halo 9s ease-in-out infinite;
+  }
+  @keyframes orb {
+    0%, 8%    { transform: scale(1);    filter: saturate(1); }
+    12%, 34%  { transform: scale(0.94); filter: saturate(0.7); }   /* listening */
+    40%       { transform: scale(0.9);  filter: saturate(1.15); }  /* thinking */
+    46%       { transform: scale(1.04); }
+    52%       { transform: scale(0.99); }
+    58%       { transform: scale(1.05); }
+    64%       { transform: scale(1); }
+    70%       { transform: scale(1.04); }
+    78%       { transform: scale(1);    filter: saturate(1); }
+    100%      { transform: scale(1); }
+  }
+  @keyframes halo {
+    0%, 40%   { opacity: 0.5; transform: scale(0.9); }
+    46%, 82%  { opacity: 1;   transform: scale(1.06); }
+    100%      { opacity: 0.5; transform: scale(0.9); }
+  }
+
+  /* Waveform under the orb */
+  .wave {
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 8cqh);
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 1.1cqh;
+    height: 10cqh;
+  }
+  .wave span {
+    display: block;
+    width: 1.1cqh;
+    min-width: 3px;
+    height: 100%;
+    border-radius: 2px;
+    background: #595f66;
+    transform: scaleY(0.12);
+    animation: wave-phase 9s linear infinite, bar 0.9s ease-in-out infinite;
+    animation-delay: 0s, calc(var(--i) * -0.13s);
+  }
+  @keyframes bar {
+    0%, 100% { height: 30%; }
+    50%      { height: 100%; }
+  }
+  @keyframes wave-phase {
+    0%, 42%   { transform: scaleY(0.3); opacity: 0.4; }
+    45%, 84%  { transform: scaleY(1);    opacity: 0.85; }
+    88%, 100% { transform: scaleY(0.3); opacity: 0.4; }
+  }
+
+  /* ------------------------------------------------------------- */
+  /* Transcript                                                     */
+  /* ------------------------------------------------------------- */
+  .transcript {
+    display: flex;
+    flex-direction: column;
+    gap: 7cqh;
+    max-width: 46ch;
+  }
+  .turn {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6cqh;
+    animation: turn-fade 9s ease-in-out infinite;
+  }
+  .who {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: clamp(9px, 3.4cqh, 11px);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #5a605e;
+  }
+  .line {
+    font-size: clamp(13px, 6.4cqh, 26px);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .you .line { color: #5a605e; font-weight: 500; }
+  .agent .who { color: #4f63e8; }
+
+  .live {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4f63e8;
+    animation: live 9s ease-in-out infinite;
+  }
+  @keyframes live {
+    0%, 42%   { opacity: 0.25; }
+    45%, 84%  { opacity: 1; }
+    88%, 100% { opacity: 0.25; }
+  }
+
+  /* Visitor question types in */
+  .typed {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: bottom;
+    clip-path: inset(0 100% 0 0);
+    animation: type 9s steps(24, end) infinite;
+  }
+  @keyframes type {
+    0%, 9%    { clip-path: inset(0 100% 0 0); }
+    30%, 100% { clip-path: inset(0 0 0 0); }
+  }
+
+  /* Agent answer reveals as it's spoken */
+  .spoken {
+    color: transparent;
+    background: linear-gradient(90deg, #2d3432 0 50%, rgba(45,52,50,0.12) 50% 100%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: speak 9s linear infinite;
+  }
+  @keyframes speak {
+    0%, 43%   { background-position: 100% 0; }
+    84%, 100% { background-position: 0 0; }
+  }
+
+  .agent { animation-name: agent-fade; }
+  @keyframes turn-fade {
+    0%, 6%    { opacity: 0; transform: translateY(4px); }
+    10%, 86%  { opacity: 1; transform: none; }
+    94%, 100% { opacity: 0; }
+  }
+  @keyframes agent-fade {
+    0%, 36%   { opacity: 0; transform: translateY(4px); }
+    42%, 86%  { opacity: 1; transform: none; }
+    94%, 100% { opacity: 0; }
+  }
+
+  /* ------------------------------------------------------------- */
+  /* Narrow cards: orb + waveform only                              */
+  /* ------------------------------------------------------------- */
+  @container (max-width: 520px) {
+    .stage { grid-template-columns: 1fr; padding: 0; }
+    .transcript { display: none; }
+    .orb-wrap { width: 40cqh; margin-top: -10cqh; }
+    .voice-viz { background: radial-gradient(60% 80% at 50% 45%, #eef0fb 0%, transparent 70%), linear-gradient(135deg, #f7f7f5 0%, #eceeeb 100%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orb, .halo, .turn, .live, .typed, .spoken, .wave span { animation: none; }
+    .typed { clip-path: none; }
+    .spoken { background-position: 0 0; }
+    .wave span { transform: scaleY(0.6); opacity: 0.6; }
+  }
+</style>
