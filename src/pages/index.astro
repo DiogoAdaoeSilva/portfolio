@@ -12,15 +12,28 @@ import VoiceViz from '../components/visualizations/VoiceViz.astro';
 const allProjects = await getCollection('projects');
 const sorted = allProjects.sort((a, b) => a.data.order - b.data.order);
 
-// Asymmetric size schedule, repeats if there are more projects.
-// Matches the design: feature → large → medium → small → small → …
-const SIZE_SCHEDULE = ['feature', 'large', 'medium', 'small', 'small'] as const;
-type CardSize = typeof SIZE_SCHEDULE[number];
+// Row-based size schedule so every row fills all 12 columns:
+// two full-width features, then pairs of mediums and triples of smalls.
+// A short tail is resized so the last row never leaves a gap.
+type CardSize = 'feature' | 'large' | 'medium' | 'small';
 
-const projects = sorted.map((p, i) => ({
-  ...p,
-  size: SIZE_SCHEDULE[i] ?? 'small',
-}));
+function buildSizes(count: number): CardSize[] {
+  const sizes: CardSize[] = [];
+  const ROWS: CardSize[][] = [['medium', 'medium'], ['small', 'small', 'small']];
+  sizes.push(...(['feature', 'feature'] as CardSize[]).slice(0, count));
+  let r = 0;
+  while (sizes.length < count) {
+    const left = count - sizes.length;
+    const row = ROWS[r++ % ROWS.length];
+    if (left >= row.length) sizes.push(...row);
+    else if (left === 2) sizes.push('medium', 'medium');
+    else sizes.push('feature');
+  }
+  return sizes;
+}
+
+const sizes = buildSizes(sorted.length);
+const projects = sorted.map((p, i) => ({ ...p, size: sizes[i] }));
 const firstImageProjectId = projects.find((project) => (
   Boolean(project.data.coverImage) && !project.data.coverVideoAutoplay
 ))?.id;
@@ -75,9 +88,23 @@ const personSchema = {
 
     <!-- Filter bar -->
     {categories.length > 2 && (
-      <section class="px-6 md:px-14 py-5 border-b border-outline-variant/30 sticky top-[72px] z-10 backdrop-blur" style="background: color-mix(in oklab, #f9f9f7 92%, transparent);">
-        <div class="max-w-[1400px] mx-auto flex items-center justify-between gap-6 flex-wrap">
-          <div id="chips" class="flex flex-wrap gap-2">
+      <section class="px-6 md:px-14 py-2.5 md:py-5 border-b border-outline-variant/30 sticky top-[72px] z-10 backdrop-blur" style="background: color-mix(in oklab, #f9f9f7 92%, transparent);">
+        <div class="max-w-[1400px] mx-auto">
+          <!-- Mobile: collapsed to a single toggle showing the active filter -->
+          <button
+            id="filter-toggle"
+            type="button"
+            class="md:hidden text-[11px] font-medium uppercase tracking-[0.08em] h-8 px-3 rounded-full border border-outline-variant/60 text-on-surface-variant transition inline-flex items-center gap-2"
+            aria-expanded="false"
+            aria-controls="chips"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path d="M3 6h18M7 12h10M10 18h4" />
+            </svg>
+            <span id="filter-label">All</span>
+            <span id="filter-count" class="text-[9px] opacity-55">{String(tagCounts.All).padStart(2, '0')}</span>
+          </button>
+          <div id="chips" class="hidden md:flex flex-wrap gap-2 pt-3 pb-1 md:p-0">
             {categories.map(cat => (
               <button
                 type="button"
@@ -207,10 +234,37 @@ const personSchema = {
   const initial = document.querySelector<HTMLButtonElement>('#chips .chip[data-tag="All"]');
   if (initial) setActive(initial);
 
+  const toggle = document.querySelector<HTMLButtonElement>('#filter-toggle');
+  const chipList = document.querySelector<HTMLElement>('#chips');
+  const label = document.querySelector<HTMLElement>('#filter-label');
+  const count = document.querySelector<HTMLElement>('#filter-count');
+
+  function setOpen(open: boolean) {
+    if (!toggle || !chipList) return;
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    chipList.classList.toggle('hidden', !open);
+    chipList.classList.toggle('flex', open);
+  }
+
+  toggle?.addEventListener('click', () => {
+    setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') setOpen(false);
+  });
+
   chips.forEach(btn => {
     btn.addEventListener('click', () => {
       const tag = btn.dataset.tag ?? 'All';
       setActive(btn);
+      // mirror the selection on the mobile toggle and collapse the panel
+      if (label) label.textContent = tag;
+      if (count) count.textContent = btn.querySelector('span')?.textContent ?? '';
+      const filtered = tag !== 'All';
+      toggle?.classList.toggle('bg-on-surface', filtered);
+      toggle?.classList.toggle('text-surface', filtered);
+      toggle?.classList.toggle('border-on-surface', filtered);
+      setOpen(false);
       cards.forEach(card => {
         const cardTags = (card.dataset.tags ?? '').split(',').filter(Boolean);
         const visible = tag === 'All' || cardTags.includes(tag);
