@@ -1,6 +1,6 @@
 ---
 title: "Gipfel Prints"
-tagline: "A poster store built entirely on other vendors' products, curated by an AI judge to show only prints of Alpine towns and ski resorts."
+tagline: "A poster store built with Shopify's Catalog and TypeSafe's model to find the best matches: posters of Alpine towns and ski resorts."
 category: "AI-Curated Commerce"
 year: 2026
 coverImage: "gipfel/screenshot"
